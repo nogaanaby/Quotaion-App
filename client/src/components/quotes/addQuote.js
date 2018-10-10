@@ -56,6 +56,10 @@ class AddQuote extends Component {
     this.props.addQuote(newQuote);
   };
 
+  removeService = (index) => {
+    const servicesWithOutIt = this.state.services.splice(index, 1)
+    this.setState({ services: servicesWithOutIt});
+  }
 
   submitService = (chosenService, prevService) => {
     const checkIfExist = this.state.services.find((service) => service === chosenService)
@@ -68,6 +72,9 @@ class AddQuote extends Component {
         const temp = [...this.state.services].splice(replaceIndex, 1, chosenService)
         this.setState({ services: temp});
       }
+      this.setState({
+        items: this.state.items.filter((item) => item !== chosenService)
+      })
     }
   }
 
@@ -88,17 +95,19 @@ class AddQuote extends Component {
         </FormGroup>
 
         <ServiceInput
-          items={this.props.items}
-          onSubmitService={this.submitService}/>
+          items={this.state.items}
+          onSubmitService={this.submitService}
+          onRemoveService={this.removeService}
+          serviceIndexOnQuote='0'/>
         
         {
-          this.state.services.length > 0 
-            ? this.state.services.map((service) => {
-              return <ServiceInput key={service._id}
-              items={this.props.items}
-              onSubmitService={this.submitService}/>
+          this.state.services.map((service, index) => {
+              return <ServiceInput key={index}
+              items={this.state.items}
+              onSubmitService={this.submitService}
+              onRemoveService={this.removeService}
+              serviceIndexOnQuote={index}/>
             })
-            : ''
         }
         
       </AddItemModal>

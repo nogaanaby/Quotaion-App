@@ -24,11 +24,21 @@ class ServiceInput extends Component {
     super(props);
     this.state = {
       service: '',
+      serviceName: '',
       price: 0,
+      basicPrice: 0,
+      quantity: 0,
       openList: false,
       items: this.props.items,
-      showNewServiceInput: false
+      showNewServiceInput: false,
+      index: this.props.serviceIndexOnQuote
     };
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.items !== prevProps.items) {
+      this.setState({items: this.props.items});      
+    }
   }
 
   onChange = e => {
@@ -53,8 +63,11 @@ class ServiceInput extends Component {
 
     this.setState({
       openList: false,
-      service: chosenService.name, 
-      price: chosenService.price
+      service: chosenService,
+      serviceName: chosenService.name,
+      price: chosenService.price,
+      basicPrice: chosenService.price,
+      quantity: 1
     })
   }
 
@@ -62,8 +75,29 @@ class ServiceInput extends Component {
     this.setState({showNewServiceInput: true})
   }
 
-  removeService = (id) => {
+  removeService = () => {
+    if(this.state.service !== '') {
+      this.props.onRemoveService(this.state.index)
+    }
     this.setState({showNewServiceInput: false})
+  }
+
+  handleIncament = (direction) => {
+    if(direction === 'decreace') {
+      if(this.state.price === this.state.basicPrice) {
+        this.removeService()
+      } else {
+        this.setState({
+          price: this.state.price - this.state.basicPrice,
+          quantity: this.state.quantity - 1
+        })
+      }
+    } else {
+      this.setState({ 
+        price: this.state.price + this.state.basicPrice,
+        quantity: this.state.quantity + 1
+      })
+    }
   }
 
   render() {
@@ -83,20 +117,25 @@ class ServiceInput extends Component {
             <InputGroup>
               <InputGroupAddon addonType="prepend">
                 <Button color="danger"
-                  onClick={this.removeService}><i className="fas fa-minus"></i></Button>
+                  onClick={() => this.handleIncament('decreace')}><i className="fas fa-minus"></i></Button>
+              </InputGroupAddon>
+              <InputGroupAddon addonType="prepend">
+                <Button color="info"
+                  onClick={() => this.handleIncament('increace')}><i className="fas fa-plus"></i></Button>
               </InputGroupAddon>
                 
                   <Input
                     type="text"
                     name="service"
                     id="serviceName"
-                    value={this.state.service}
+                    value={this.state.serviceName}
                     placeholder="Add Service"
                     onClick={this.openList}
                     onChange={this.listSearch}
                   />
 
                   <InputGroupAddon addonType="append">
+                    <InputGroupText>{this.state.quantity}</InputGroupText>
                     <InputGroupText>{this.state.price}₪</InputGroupText>
                   </InputGroupAddon>
                 
