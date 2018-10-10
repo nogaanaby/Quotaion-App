@@ -4,17 +4,21 @@ import {
   Label,
   Input,
   Collapse,
+  Dropdown,
   DropdownMenu, 
   DropdownItem,
+  DropdownToggle,
   Button,
-  Dropdown,
   ListGroup,
-  ListGroupItem
+  ListGroupItem,
+  InputGroup,
+  InputGroupAddon
 } from 'reactstrap';
 import { connect } from 'react-redux';
 import { addQuote } from '../../actions/quoteActions';
 import { getItems} from '../../actions/itemActions';
 import AddItemModal from '../addItemModal'
+import ServiceInput from './serviceInput'
 import PropTypes from 'prop-types'
 
 class AddQuote extends Component {
@@ -22,9 +26,9 @@ class AddQuote extends Component {
     super(props);
     this.state = {
       name: '',
-      service: '',
-      openList: false,
-      items: this.props.items
+      items: this.props.items,
+      services: [],
+      showNewServiceInput: false,
     };
   }
 
@@ -43,18 +47,6 @@ class AddQuote extends Component {
     this.setState({ [e.target.name]: e.target.value });
   };
 
-  listSearch = e => {
-    this.setState({ service: e.target.value });
-    const temp = [...this.state.items]
-    temp.filter((item) => item.name.includes(e.target.value))
-    console.log(temp)
-    this.setState({ items: temp });
-  }
-
-  toggleList = () => {
-    this.setState({ openList: !this.state.openList })
-  }
-
   onSubmit = () => {
 
     const newQuote = {
@@ -63,6 +55,21 @@ class AddQuote extends Component {
 
     this.props.addQuote(newQuote);
   };
+
+
+  submitService = (chosenService, prevService) => {
+    const checkIfExist = this.state.services.find((service) => service === chosenService)
+    if(!checkIfExist) {
+      if(prevService === ''){
+        this.setState({ services: [...this.state.services, chosenService]});
+      } else {
+        //debugger
+        const replaceIndex = this.state.services.findIndex((service) => service === prevService)
+        const temp = [...this.state.services].splice(replaceIndex, 1, chosenService)
+        this.setState({ services: temp});
+      }
+    }
+  }
 
   render() {
     return (
@@ -79,29 +86,21 @@ class AddQuote extends Component {
             onChange={this.onChange}
           />
         </FormGroup>
-        <FormGroup>
-          <Label for="item">Add Service</Label>
-          <Input
-            type="text"
-            name="service"
-            id="serviceName"
-            placeholder="Add Service"
-            onClick={this.toggleList}
-            onChange={this.listSearch}
-          />
-          <Collapse isOpen={this.state.openList}>
-            <ListGroup>
-            {
-              this.state.items.map((item) =>(
-                <ListGroupItem key={item._id} tag="a" href="#" action>
-                  <small className="hor-gap">{item.name}</small>
-                  <small className="hor-gap">{item.price}₪</small>
-                </ListGroupItem>
-              ))            
-            }
-            </ListGroup>
-          </Collapse>
-        </FormGroup>
+
+        <ServiceInput
+          items={this.props.items}
+          onSubmitService={this.submitService}/>
+        
+        {
+          this.state.services.length > 0 
+            ? this.state.services.map((service) => {
+              return <ServiceInput key={service._id}
+              items={this.props.items}
+              onSubmitService={this.submitService}/>
+            })
+            : ''
+        }
+        
       </AddItemModal>
     );
   }

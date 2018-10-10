@@ -37,10 +37,20 @@
   right: 10%;
 }
 
+.plus-service{
+  display: inline;
+  color: #17A2B8;
+  z-index: 3;
+}
+
 .hor-gap{
   margin-right: 20px;
   margin-left: 20px;
 }
 .grey-text{
   color: grey;
+}
+
+.hide {
+  display: none;
 }
