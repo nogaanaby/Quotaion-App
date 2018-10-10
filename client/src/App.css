@@ -1,0 +1,46 @@
+.remove-btn{
+  margin-right: 0.5rem;
+}
+
+.rounded-btn{
+  border-radius: 50%;
+}
+
+.btn-group-sm>.btn, .btn-sm {
+  padding: 0.1rem 0.4rem;
+}
+
+.fadeIn-enter{
+  opacity: 0.01;
+}
+
+.fadeIn-enter-active{
+  opacity: 1;
+  transition: opacity 1000ms ease-in;
+}
+
+.fadeIn-exit{
+  opacity: 1;
+}
+
+.fadeIn-exit-active{
+  opacity: 0.01;
+  transition: opacity 1000ms ease-in;
+}
+
+.floating-icon{
+  display: block;
+  position: fixed;
+  color: #17A2B8;
+  z-index: 1;
+  bottom: 10%;
+  right: 10%;
+}
+
+.hor-gap{
+  margin-right: 20px;
+  margin-left: 20px;
+}
+.grey-text{
+  color: grey;
+}
