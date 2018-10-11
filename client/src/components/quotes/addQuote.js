@@ -42,17 +42,23 @@ class AddQuote extends Component {
     }
   }
 
+  onCloseModal = () => {
+    this.setState({
+      services: [],
+      name: '',
+      showNewServiceInput: false
+    })
+  }
+
   onChange = e => {
     e.preventDefault()
     this.setState({ [e.target.name]: e.target.value });
   };
 
   onSubmit = () => {
-
     const newQuote = {
       name: this.state.name
     };
-
     this.props.addQuote(newQuote);
   };
 
@@ -60,17 +66,26 @@ class AddQuote extends Component {
     const servicesWithOutIt = [...this.state.services]
     servicesWithOutIt.splice(index, 1)
     this.setState({ services: servicesWithOutIt})
+    this.printServices()
   }
 
   submitService = (chosenService) => {
     this.setState({ services: [...this.state.services, chosenService]});
     this.toggleServiceInput()
+    this.printServices()
   }
 
   editService = (newService, index) => {
     const temp = [...this.state.services]
     temp.splice(index, 1, newService)
     this.setState({ services: temp});
+    this.printServices()
+  }
+
+  printServices = () => {
+    setTimeout(() => {
+      console.log(this.state.services)
+    }, 300)
   }
 
   toggleServiceInput = () => {
@@ -81,7 +96,8 @@ class AddQuote extends Component {
     return (
       <AddItemModal
         onSubmit={this.onSubmit}
-        header='Add Quote'>
+        header='Add Quote'
+        onClose={this.onCloseModal}>
         <FormGroup>
           <Label for="item">Quote Name</Label>
           <Input
@@ -90,6 +106,7 @@ class AddQuote extends Component {
             id="QuoteName"
             placeholder="Add Quote"
             onChange={this.onChange}
+            autoComplete="off"
           />
         </FormGroup>
         

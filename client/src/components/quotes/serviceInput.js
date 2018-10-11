@@ -18,6 +18,7 @@ import {
   InputGroupText
 } from 'reactstrap';
 
+import Autocomplete from "../autocomplete";
 
 class ServiceInput extends Component {
   constructor(props){
@@ -64,6 +65,7 @@ class ServiceInput extends Component {
     } else {
       this.props.onSubmitService(chosenService)
     }
+    //this.updateQuantity(this.props.service, 1)
     this.setState({
       openList: false
     })
@@ -77,22 +79,31 @@ class ServiceInput extends Component {
     this.setState({isActive: false})
   }
 
+  updateQuantity = (chosenService, quantity) => {
+    chosenService.quantity = quantity
+    this.props.onEditService(chosenService, this.props.serviceIndex)
+  }
+
   handleIncament = (direction) => {
+    let newQuantity;
     if(direction === 'decreace') {
       if(this.state.price === this.state.basicPrice) {
         this.removeService()
       } else {
+        newQuantity = this.state.quantity - 1
         this.setState({
           price: this.state.price - this.state.basicPrice,
-          quantity: this.state.quantity - 1
+          quantity: newQuantity
         })
       }
     } else {
+      newQuantity = this.state.quantity + 1
       this.setState({ 
         price: this.state.price + this.state.basicPrice,
-        quantity: this.state.quantity + 1
+        quantity: newQuantity
       })
     }
+    this.updateQuantity(this.props.service, newQuantity)
   }
 
   render() {
@@ -119,6 +130,7 @@ class ServiceInput extends Component {
                     placeholder="Add Service"
                     onClick={this.openList}
                     onChange={this.listSearch}
+                    autoComplete="off"
                   />
 
                   <InputGroupAddon addonType="append">
@@ -137,7 +149,7 @@ class ServiceInput extends Component {
                       <small className="hor-gap">{item.name}</small>
                       <small className="hor-gap">{item.price}₪</small>
                     </ListGroupItem>
-                  ))            
+                  ))
                 }
                 </ListGroup>
               </Collapse>

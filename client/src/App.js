@@ -12,6 +12,7 @@ import './App.css';
 import { Switch, Route } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import store from './store'
+import Autocomplete from './components/autocomplete';
 
 
 class App extends Component {

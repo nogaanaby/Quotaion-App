@@ -11,6 +11,13 @@ import {
 } from 'reactstrap';
 
 class ItemModal extends Component {
+
+  static defaultProps = {
+    onClose() {
+
+    }
+  };
+
   constructor(props){
     super(props)
     this.state = {
@@ -22,6 +29,7 @@ class ItemModal extends Component {
     this.setState({
       modal: !this.state.modal
     });
+    this.props.onClose()
   };
 
   onSubmit = e => {
