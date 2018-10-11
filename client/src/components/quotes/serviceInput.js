@@ -35,8 +35,8 @@ class ServiceInput extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.items !== prevProps.items) {
-      this.setState({items: this.props.items});      
+    if (this.props.service !== prevProps.service) {
+      this.setState({service: this.props.service});      
     }
   }
 
@@ -57,15 +57,20 @@ class ServiceInput extends Component {
   }
 
   chooseService = (id) => {
+    //not empty service
     const chosenService = this.props.items.find((item) => item._id === id )
-    this.props.onSubmitService(chosenService)
-
+    if(this.state.serviceName !== '') {
+      this.props.onEditService(chosenService, this.props.serviceIndex)
+    } else {
+      this.props.onSubmitService(chosenService)
+    }
     this.setState({
       openList: false
     })
   }
 
   removeService = () => {
+    //not empty service
     if(this.state.serviceName !== '') {
       this.props.onRemoveService(this.props.serviceIndex)
     }
@@ -110,7 +115,7 @@ class ServiceInput extends Component {
                     type="text"
                     name="service"
                     id="serviceName"
-                    value={this.state.serviceName}
+                    value={this.state.service.name}
                     placeholder="Add Service"
                     onClick={this.openList}
                     onChange={this.listSearch}

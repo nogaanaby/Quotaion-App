@@ -59,12 +59,18 @@ class AddQuote extends Component {
   removeService = (index) => {
     const servicesWithOutIt = [...this.state.services]
     servicesWithOutIt.splice(index, 1)
-    this.setState({ services: servicesWithOutIt});
+    this.setState({ services: servicesWithOutIt})
   }
 
   submitService = (chosenService) => {
     this.setState({ services: [...this.state.services, chosenService]});
     this.toggleServiceInput()
+  }
+
+  editService = (newService, index) => {
+    const temp = [...this.state.services]
+    temp.splice(index, 1, newService)
+    this.setState({ services: temp});
   }
 
   toggleServiceInput = () => {
@@ -96,7 +102,8 @@ class AddQuote extends Component {
               serviceIndex={index}
               service={service}
               quantity={1}
-              isActive={true}/>
+              isActive={true}
+              onEditService={this.editService}/>
             })
         }
 
