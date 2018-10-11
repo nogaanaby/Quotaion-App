@@ -57,25 +57,18 @@ class AddQuote extends Component {
   };
 
   removeService = (index) => {
-    const servicesWithOutIt = this.state.services.splice(index, 1)
+    const servicesWithOutIt = [...this.state.services]
+    servicesWithOutIt.splice(index, 1)
     this.setState({ services: servicesWithOutIt});
   }
 
-  submitService = (chosenService, prevService) => {
-    const checkIfExist = this.state.services.find((service) => service === chosenService)
-    if(!checkIfExist) {
-      if(prevService === ''){
-        this.setState({ services: [...this.state.services, chosenService]});
-      } else {
-        //debugger
-        const replaceIndex = this.state.services.findIndex((service) => service === prevService)
-        const temp = [...this.state.services].splice(replaceIndex, 1, chosenService)
-        this.setState({ services: temp});
-      }
-      this.setState({
-        items: this.state.items.filter((item) => item !== chosenService)
-      })
-    }
+  submitService = (chosenService) => {
+    this.setState({ services: [...this.state.services, chosenService]});
+    this.toggleServiceInput()
+  }
+
+  toggleServiceInput = () => {
+    this.setState({ showNewServiceInput: !this.state.showNewServiceInput })
   }
 
   render() {
@@ -93,12 +86,6 @@ class AddQuote extends Component {
             onChange={this.onChange}
           />
         </FormGroup>
-
-        <ServiceInput
-          items={this.state.items}
-          onSubmitService={this.submitService}
-          onRemoveService={this.removeService}
-          serviceIndexOnQuote='0'/>
         
         {
           this.state.services.map((service, index) => {
@@ -106,9 +93,30 @@ class AddQuote extends Component {
               items={this.state.items}
               onSubmitService={this.submitService}
               onRemoveService={this.removeService}
-              serviceIndexOnQuote={index}/>
+              serviceIndex={index}
+              service={service}
+              quantity={1}
+              isActive={true}/>
             })
         }
+
+        <ServiceInput
+          items={this.state.items}
+          onSubmitService={this.submitService}
+          onRemoveService={this.removeService}
+          serviceIndex={this.state.services.length}
+          service={{name: '', price: 0}}
+          quantity={0}
+          isActive={this.state.showNewServiceInput}/>
+
+        <FormGroup>
+          <InputGroupAddon addonType="prepend">
+            <Button color="info"
+              onClick={ this.toggleServiceInput }>
+              <i className="fas fa-plus"></i>
+            </Button>
+          </InputGroupAddon>
+        </FormGroup>
         
       </AddItemModal>
     );

@@ -23,15 +23,14 @@ class ServiceInput extends Component {
   constructor(props){
     super(props);
     this.state = {
-      service: '',
-      serviceName: '',
-      price: 0,
-      basicPrice: 0,
-      quantity: 0,
+      service: this.props.service,
+      serviceName: this.props.service.name,
+      price: this.props.service.price,
+      basicPrice: this.props.service.price,
+      quantity: this.props.quantity,
       openList: false,
       items: this.props.items,
-      showNewServiceInput: false,
-      index: this.props.serviceIndexOnQuote
+      isActive: this.props.isActive
     };
   }
 
@@ -54,32 +53,23 @@ class ServiceInput extends Component {
   }
 
   openList = () => {
-    this.setState({ openList: true})
+    this.setState({ openList: !this.state.openList})
   }
 
   chooseService = (id) => {
     const chosenService = this.props.items.find((item) => item._id === id )
-    this.props.onSubmitService(chosenService, this.state.service)
+    this.props.onSubmitService(chosenService)
 
     this.setState({
-      openList: false,
-      service: chosenService,
-      serviceName: chosenService.name,
-      price: chosenService.price,
-      basicPrice: chosenService.price,
-      quantity: 1
+      openList: false
     })
   }
 
-  openServiceInput = () => {
-    this.setState({showNewServiceInput: true})
-  }
-
   removeService = () => {
-    if(this.state.service !== '') {
-      this.props.onRemoveService(this.state.index)
+    if(this.state.serviceName !== '') {
+      this.props.onRemoveService(this.props.serviceIndex)
     }
-    this.setState({showNewServiceInput: false})
+    this.setState({isActive: false})
   }
 
   handleIncament = (direction) => {
@@ -103,16 +93,8 @@ class ServiceInput extends Component {
   render() {
     return (
       <FormGroup>
-        <FormGroup className={this.state.showNewServiceInput ? 'hide' : ''}>
-          <InputGroupAddon addonType="prepend">
-            <Button color="info"
-              onClick={this.openServiceInput}>
-              <i className="fas fa-plus"></i>
-            </Button>
-          </InputGroupAddon>
-        </FormGroup>
 
-        <Collapse direction="right" isOpen={this.state.showNewServiceInput}>
+        <Collapse direction="right" isOpen={this.props.isActive}>
           
             <InputGroup>
               <InputGroupAddon addonType="prepend">
