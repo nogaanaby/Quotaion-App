@@ -11,8 +11,11 @@ router.get('/', (req, res) => {
 })
 
 router.post('/', (req, res) => {
+  console.log(req.body)
   const newQuote = new Quote({
-    name: req.body.name
+    name: req.body.name,
+    services: req.body.services,
+    totalPrice: req.body.totalPrice
   })
 
   newQuote.save()

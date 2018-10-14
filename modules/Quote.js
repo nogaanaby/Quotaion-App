@@ -7,6 +7,10 @@ const QuoteSchema = new Schema({
     type: String,
     required: true
   },
+  services: {
+    type: Array,
+    default: []
+  },
   totalPrice: {
     type: Number,
     default: 0

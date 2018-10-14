@@ -15,10 +15,11 @@ import {
   InputGroupAddon, 
   Row,
   Col,
-  InputGroupText
+  InputGroupText,
+  Container
 } from 'reactstrap';
 
-import Autocomplete from "../autocomplete";
+import Quantity from "./quantity";
 
 class ServiceInput extends Component {
   constructor(props){
@@ -26,134 +27,95 @@ class ServiceInput extends Component {
     this.state = {
       service: this.props.service,
       serviceName: this.props.service.name,
-      price: this.props.service.price,
-      basicPrice: this.props.service.price,
-      quantity: this.props.quantity,
       openList: false,
-      items: this.props.items,
-      isActive: this.props.isActive
+      items: this.props.items
     };
   }
 
   componentDidUpdate(prevProps) {
     if (this.props.service !== prevProps.service) {
-      this.setState({service: this.props.service});      
+      this.setState({
+        service: this.props.service,
+        serviceName: this.props.service.name
+      });      
     }
   }
 
   onChange = e => {
-    e.preventDefault()
-    this.setState({ [e.target.name]: e.target.value });
+    this.setState({ serviceName: e.target.value });
+    this.listSearch(e.target.value)
   };
 
-  listSearch = e => {
-    this.setState({ service: e.target.value });
+  listSearch = (value) => {
     let temp = [...this.props.items]
-    temp = temp.filter((item) => item.name.includes(e.target.value))
+    temp = temp.filter((item) => item.name.includes(value))
     this.setState({ items: temp });
   }
 
-  openList = () => {
+  toggleList = () => {
     this.setState({ openList: !this.state.openList})
   }
 
   chooseService = (id) => {
     //not empty service
     const chosenService = this.props.items.find((item) => item._id === id )
-    if(this.state.serviceName !== '') {
+    if(this.props.service.name !== '') {
       this.props.onEditService(chosenService, this.props.serviceIndex)
     } else {
+      chosenService.quantity = 1
+      chosenService.totalPrice = chosenService.price
       this.props.onSubmitService(chosenService)
     }
-    //this.updateQuantity(this.props.service, 1)
     this.setState({
       openList: false
     })
   }
 
   removeService = () => {
-    //not empty service
-    if(this.state.serviceName !== '') {
-      this.props.onRemoveService(this.props.serviceIndex)
-    }
-    this.setState({isActive: false})
+    this.props.onRemoveService(this.props.serviceIndex)
   }
 
-  updateQuantity = (chosenService, quantity) => {
-    chosenService.quantity = quantity
-    this.props.onEditService(chosenService, this.props.serviceIndex)
-  }
-
-  handleIncament = (direction) => {
-    let newQuantity;
-    if(direction === 'decreace') {
-      if(this.state.price === this.state.basicPrice) {
-        this.removeService()
-      } else {
-        newQuantity = this.state.quantity - 1
-        this.setState({
-          price: this.state.price - this.state.basicPrice,
-          quantity: newQuantity
-        })
-      }
-    } else {
-      newQuantity = this.state.quantity + 1
-      this.setState({ 
-        price: this.state.price + this.state.basicPrice,
-        quantity: newQuantity
-      })
-    }
-    this.updateQuantity(this.props.service, newQuantity)
+  updateQuantity = (quantity) => {
+    const { service, serviceIndex } = this.props
+    service.quantity = quantity
+    service.totalPrice = service.price * quantity
+    this.props.onEditService(service, serviceIndex)
   }
 
   render() {
     return (
       <FormGroup>
-
-        <Collapse direction="right" isOpen={this.props.isActive}>
-          
-            <InputGroup>
-              <InputGroupAddon addonType="prepend">
-                <Button color="danger"
-                  onClick={() => this.handleIncament('decreace')}><i className="fas fa-minus"></i></Button>
-              </InputGroupAddon>
-              <InputGroupAddon addonType="prepend">
-                <Button color="info"
-                  onClick={() => this.handleIncament('increace')}><i className="fas fa-plus"></i></Button>
-              </InputGroupAddon>
-                
-                  <Input
-                    type="text"
-                    name="service"
-                    id="serviceName"
-                    value={this.state.service.name}
-                    placeholder="Add Service"
-                    onClick={this.openList}
-                    onChange={this.listSearch}
-                    autoComplete="off"
-                  />
-
-                  <InputGroupAddon addonType="append">
-                    <InputGroupText>{this.state.quantity}</InputGroupText>
-                    <InputGroupText>{this.state.price}₪</InputGroupText>
-                  </InputGroupAddon>
-                
-              </InputGroup>
-            
-              <Collapse isOpen={this.state.openList}>
+          <Quantity
+            quantity={this.props.quantity}
+            service={this.props.service}
+            updateQuantity={this.updateQuantity}
+            unMount={this.removeService}>
+            <Input
+              type="text"
+              name="service"
+              id="serviceName"
+              value={this.state.serviceName}
+              placeholder="Add Service"
+              onClick={this.toggleList}
+              onChange={this.onChange}
+              autoComplete="off"
+            />
+          </Quantity>
+            <Collapse isOpen={this.state.openList}>
+            <Container style={{maxHeight: '20vh', overflow: 'auto'}}>
                 <ListGroup>
                 {
                   this.state.items.map((item) =>(
                     <ListGroupItem key={item._id} tag="a" href="#" action
-                      onClick={() => this.chooseService(item._id)}>
-                      <small className="hor-gap">{item.name}</small>
-                      <small className="hor-gap">{item.price}₪</small>
+                        onClick={() => this.chooseService(item._id)}>
+                        <small className="hor-gap">{item.name}</small>
+                        <small className="hor-gap">{item.price}₪</small>
                     </ListGroupItem>
                   ))
                 }
                 </ListGroup>
-              </Collapse>
-        </Collapse>
+              </Container>
+            </Collapse>
       </FormGroup>
     );
   }

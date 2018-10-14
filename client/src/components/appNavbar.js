@@ -29,9 +29,9 @@ import {
     render() {
       return (
         <div className="Navbar">
-          <Navbar color="info" dark expand="sm" className="mb-5">
+          <Navbar color="dark" dark expand="sm">
             <Container>
-              <NavbarBrand href="/">ShoppingList</NavbarBrand>
+              <NavbarBrand href="/">QUOTATIONS</NavbarBrand>
               <NavbarToggler onClick={this.toggle}/>
               <Collapse isOpen={this.state.isOpen} navbar>
                 <Nav className="ml-auto" navbar>

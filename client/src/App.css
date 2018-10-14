@@ -1,3 +1,7 @@
+*{
+  text-align: right
+}
+
 .remove-btn{
   margin-right: 0.5rem;
 }
@@ -31,21 +35,48 @@
 .floating-icon{
   display: block;
   position: fixed;
-  color: #17A2B8;
+  color: #A6D8BE;
   z-index: 1;
   bottom: 10%;
   right: 10%;
+  background-color: white;
+  border-radius: 50%;
+}
+
+.floating-icon:hover{
+  color: #F0EADD;
 }
 
 .plus-service{
   display: inline;
-  color: #17A2B8;
+  color: #A6D8BE;
   z-index: 3;
 }
 
+.bg-torqiz{
+  background-color: #A6D8BE;
+}
+
+.bg-torqiz-light{
+  background-color: #F0EADD;
+}
+
+.btn-torqiz{
+  background-color: #F0EADD;
+  border-color: #4B4B4D;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+}
+
+.btn-torqiz:hover{
+  background-color: #F0EADD;
+  border-color: #DE4E41;
+}
+
 .hor-gap{
-  margin-right: 20px;
-  margin-left: 20px;
+  margin-right: 5px;
+  margin-left: 5px;
 }
 .grey-text{
   color: grey;
@@ -53,4 +84,33 @@
 
 .hide {
   display: none;
+}
+
+.card-buttons{
+  display: flex;
+  justify-content: space-between;
+}
+
+.fa-trash-alt, .fa-edit, .fa-copy, .fa-expand{
+  color: #DE4E41;
+}
+
+.quote-card{
+  margin: 1.5rem;
+}
+.quotes-container{
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.hebrow-header{
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row-reverse;
+}
+
+.modal-header .close {
+  padding: 0;
+  margin: 0;
 }

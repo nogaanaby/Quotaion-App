@@ -1,0 +1,23 @@
+to add to the app:
+
+services:
+enable edit
+input validations
+
+addQuote:
+add a discount option
+save the quote perminantly
+enable open and edit quote
+shering quote
+edit totalPrice
+edit every service price with popup
+edit the quoantity by hand (in case for exp: this is 46 metters floore)
+enable adding new service on add quote
+
+quotes page:
+veiw quote format as cards
+with buttons: share, edit, remove and duplicate
+when click it opens the edit mode
+and enable to edit
+
+deploy on gh-pages

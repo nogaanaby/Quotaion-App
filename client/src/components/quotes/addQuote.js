@@ -12,6 +12,7 @@ import {
   ListGroup,
   ListGroupItem,
   InputGroup,
+  InputGroupText,
   InputGroupAddon
 } from 'reactstrap';
 import { connect } from 'react-redux';
@@ -28,7 +29,7 @@ class AddQuote extends Component {
       name: '',
       items: this.props.items,
       services: [],
-      showNewServiceInput: false,
+      showNewServiceInput: false
     };
   }
 
@@ -38,7 +39,7 @@ class AddQuote extends Component {
 
   componentDidUpdate(prevProps) {
     if (this.props.items !== prevProps.items) {
-      this.setState({items: this.props.items});      
+      this.setState({items: this.props.items});
     }
   }
 
@@ -57,7 +58,9 @@ class AddQuote extends Component {
 
   onSubmit = () => {
     const newQuote = {
-      name: this.state.name
+      name: this.state.name,
+      services: this.state.services,
+      totalPrice: this.calcTotalPrice()
     };
     this.props.addQuote(newQuote);
   };
@@ -66,6 +69,7 @@ class AddQuote extends Component {
     const servicesWithOutIt = [...this.state.services]
     servicesWithOutIt.splice(index, 1)
     this.setState({ services: servicesWithOutIt})
+    this.toggleServiceInput()
     this.printServices()
   }
 
@@ -92,19 +96,35 @@ class AddQuote extends Component {
     this.setState({ showNewServiceInput: !this.state.showNewServiceInput })
   }
 
+  calcTotalPrice = () => {
+    let count = 0
+    this.state.services.forEach((service)=>{
+      if(service.totalPrice) {
+        count += service.totalPrice
+      } else {
+        count += service.price
+      }
+    })
+    return count
+  }
+
+  intFormat = (int) => {
+    return int.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
+
   render() {
     return (
       <AddItemModal
         onSubmit={this.onSubmit}
-        header='Add Quote'
+        header='הצעת מחיר'
         onClose={this.onCloseModal}>
         <FormGroup>
-          <Label for="item">Quote Name</Label>
+          <Label for="item">שם הלקוח</Label>
           <Input
             type="text"
             name="name"
             id="QuoteName"
-            placeholder="Add Quote"
+            placeholder="לכבוד גברת לקוח"
             onChange={this.onChange}
             autoComplete="off"
           />
@@ -119,19 +139,20 @@ class AddQuote extends Component {
               serviceIndex={index}
               service={service}
               quantity={1}
-              isActive={true}
               onEditService={this.editService}/>
             })
         }
 
-        <ServiceInput
-          items={this.state.items}
-          onSubmitService={this.submitService}
-          onRemoveService={this.removeService}
-          serviceIndex={this.state.services.length}
-          service={{name: '', price: 0}}
-          quantity={0}
-          isActive={this.state.showNewServiceInput}/>
+        <div className={!this.state.showNewServiceInput ? 'hide' : ''}>
+          <ServiceInput
+            items={this.state.items}
+            onSubmitService={this.submitService}
+            onRemoveService={this.removeService}
+            serviceIndex={this.state.services.length}
+            service={{name: '', price: 0}}
+            quantity={0}
+            onEditService={this.editService}/>
+          </div>
 
         <FormGroup>
           <InputGroupAddon addonType="prepend">
@@ -139,6 +160,12 @@ class AddQuote extends Component {
               onClick={ this.toggleServiceInput }>
               <i className="fas fa-plus"></i>
             </Button>
+          </InputGroupAddon>
+        </FormGroup>
+        <FormGroup>
+
+          <InputGroupAddon addonType="prepend">
+            <InputGroupText name="totalPrice">{this.intFormat(this.calcTotalPrice())}₪</InputGroupText>
           </InputGroupAddon>
         </FormGroup>
         

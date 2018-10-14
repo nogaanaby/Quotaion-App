@@ -46,7 +46,7 @@ class ItemModal extends Component {
         </a>
 
         <Modal isOpen={this.state.modal} toggle={this.toggle}>
-          <ModalHeader toggle={this.toggle}>{this.props.header}</ModalHeader>
+          <ModalHeader className="bg-torqiz hebrow-header" toggle={this.toggle}>{this.props.header}</ModalHeader>
           <ModalBody>
             <Form onSubmit={this.onSubmit}>
               {this.props.children}

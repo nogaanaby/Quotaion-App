@@ -1,13 +1,21 @@
 import React, { Component } from 'react';
-import { Container, ListGroup, ListGroupItem, Button, Table } from 'reactstrap';
+import { Container, ListGroup, ListGroupItem, Button, Table,
+  Card, CardImg, CardImgOverlay, CardTitle, CardText, ButtonGroup, CardDeck } from 'reactstrap';
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { getQuotes, deleteQuote } from '../../actions/quoteActions'
 
 import AddQuote from './addQuote';
+import QuoteCard from './quoteCard'
+import ExpandQuote from './expandQuote'
 
   class Quotes extends Component {
-    componentDidMount(){
+
+    state = {
+      openExpandMode: 'non'
+    }
+
+    componentWillMount(){
       this.props.getQuotes()
     }
 
@@ -15,39 +23,33 @@ import AddQuote from './addQuote';
       this.props.deleteQuote(id)
     }
 
+    toggleExpand = (id) => {
+      console.log(id)
+      this.setState({openExpandMode: id})
+    }
+
     render() {
-      const { quotes } = this.props.quote
       return (
-        <Container>
+        <div className="quotes-container">
           <AddQuote/>
-            <Table>
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>שם הצעת המחיר</th>
-                  <th>מחיר סופי</th>
-                </tr>
-              </thead>
-              <tbody>
+            
               {
-                quotes.map((quote) =>(
-                  <tr key={quote._id}>
-                    <th scope="row">
-                      <Button className="remove-btn rounded-btn"
-                      color="danger"
-                      size="sm"
-                      onClick={() => this.deleteQuote(quote._id)}>
-                        &times;
-                      </Button>
-                    </th>
-                    <td>{quote.name}</td>
-                    <td>{quote.totalPrice}₪</td>
-                  </tr>
-                ))            
+                this.props.quote.quotes.map((quote) =>(
+                  <div key={quote._id}>
+                    <QuoteCard
+                      quote={quote}
+                      delete={this.deleteQuote}
+                      expand={this.toggleExpand}/>
+                    <ExpandQuote 
+                        quote={quote}
+                        isOpen={this.state.openExpandMode === quote._id}
+                        toggle={() => this.setState({openExpandMode: 'non'})}
+                        delete={this.deleteQuote}/>
+                  </div>
+                ))         
               }
-              </tbody>
-            </Table>
-        </Container>
+              
+        </div>
       );
     }
   }

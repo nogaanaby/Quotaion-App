@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import { Container, ListGroup, ListGroupItem, Button, Table } from 'reactstrap';
+import { Container, 
+  ListGroup, ListGroupItem, Button, Table, FormGroup, 
+  InputGroup, Input,InputGroupAddon, FormFeedback, InputGroupText } from 'reactstrap';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
@@ -8,25 +10,61 @@ import { getItems, deleteItem } from '../../actions/itemActions'
 import AddService from './addService';
 
   class Services extends Component {
-    componentDidMount(){
-      this.props.getItems()
+     constructor(props){
+       super(props)
+        this.state = {
+          items: [],
+          filter: ''
+        };
+     }
+
+
+    componentWillMount(){
+      this.props.getItems()   
+    }
+
+    componentWillReceiveProps(props){
+      const temp = props.item.items
+      temp.sort()
+      this.setState({items: temp})
     }
   
     deleteItem = (id) => {
       this.props.deleteItem(id)
     }
 
+    onChange = e => {
+      this.setState({ filter: e.target.value });
+      this.listSearch(e.target.value)
+    };
+  
+    listSearch = (value) => {
+      let temp = [...this.props.item.items]
+      temp = temp.filter((item) => item.name.includes(value))
+      this.setState({ items: temp });
+    }
+
     render() {
-      const { items } = this.props.item
+      const { items } = this.state
       return (
         <Container>
-          <AddService/>
+          <FormGroup>
+            <InputGroup>
+              <InputGroupAddon addonType="append">
+                <InputGroupText>
+                  <i className="fas fa-search"></i>
+                </InputGroupText>
+              </InputGroupAddon>
+              <Input placeholder="sesrch"
+                onChange={this.onChange} />
+            </InputGroup>
+          </FormGroup>
             <Table>
               <thead>
                 <tr>
-                  <th>#</th>
-                  <th>שם השירות</th>
+                  <th></th>
                   <th>מחיר</th>
+                  <th>שם השירות</th>
                 </tr>
               </thead>
               <tbody>
@@ -34,20 +72,21 @@ import AddService from './addService';
                 items.map((item) =>(
                   <tr key={item._id}>
                     <th scope="row">
-                      <Button className="remove-btn rounded-btn"
-                      color="danger"
-                      size="sm"
-                      onClick={() => this.deleteItem(item._id)}>
-                        &times;
-                      </Button>
                     </th>
-                    <td>{item.name}</td>
                     <td>{item.price}₪</td>
+                    <td>{item.name}</td>
+                    <td className="card-buttons">
+                      <Button outline className="btn-torqiz" onClick={() => this.deleteItem(item._id)}>
+                        <i className="far fa-trash-alt"></i>
+                      </Button>
+                    </td>
                   </tr>
                 ))            
               }
               </tbody>
             </Table>
+            
+            <AddService/>
         </Container>
       );
     }

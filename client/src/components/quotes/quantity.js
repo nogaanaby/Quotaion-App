@@ -22,25 +22,42 @@ class Quantity extends Component {
   constructor(props){
     super(props);
     this.state = {
-      price: this.props.basicPrice
+      price: this.intFormat(this.props.service.price),
+      quantity: this.props.quantity
     };
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.service !== prevProps.service) {
+      this.setState({
+        price: this.intFormat(this.props.service.price), 
+        quantity: this.props.quantity
+      });
+    }
   }
 
   handleIncament = (direction) => {
     let newQuantity;
     if(direction === 'decreace') {
-      if(this.props.quantity <= 1 ) {
+      if(this.state.quantity <= 1 ) {
         this.props.unMount()
+        return
       } else {
-        newQuantity = this.props.quantity - 1
+        newQuantity = this.state.quantity - 1
       }
     } else {
-      newQuantity = this.props.quantity + 1
+      newQuantity = this.state.quantity + 1
     }
-    this.setState({
-      price: this.props.basicPrice * newQuantity
-    })
-    this.props.updateQuantity(newQuantity)
+
+      this.setState({
+        price: this.intFormat(this.props.service.price * newQuantity),
+        quantity: newQuantity
+      })
+      this.props.updateQuantity(newQuantity)
+  }
+
+  intFormat = (int) => {
+    return int.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
 
   render() {
@@ -59,8 +76,8 @@ class Quantity extends Component {
           {this.props.children}
 
           <InputGroupAddon addonType="append">
-            <InputGroupText>{this.props.quantity}</InputGroupText>
-            <InputGroupText>{this.props.price}₪</InputGroupText>
+            <InputGroupText>{this.state.quantity}</InputGroupText>
+            <InputGroupText>{this.state.price}₪</InputGroupText>
           </InputGroupAddon>
             
           </InputGroup>
