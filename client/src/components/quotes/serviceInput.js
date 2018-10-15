@@ -102,7 +102,7 @@ class ServiceInput extends Component {
             />
           </Quantity>
             <Collapse isOpen={this.state.openList}>
-            <Container style={{maxHeight: '20vh', overflow: 'auto'}}>
+            <Container style={{maxHeight: '30vh', overflow: 'auto'}}>
                 <ListGroup>
                 {
                   this.state.items.map((item) =>(

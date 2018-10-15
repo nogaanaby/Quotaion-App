@@ -8,13 +8,14 @@ import { getQuotes, deleteQuote } from '../../actions/quoteActions'
 import AddQuote from './addQuote';
 import QuoteCard from './quoteCard'
 import ExpandQuote from './expandQuote'
+import EditQuote from './editQuote'
 
   class Quotes extends Component {
 
     state = {
-      openExpandMode: 'non'
+      modalIsOpen: 'non'
     }
-
+    
     componentWillMount(){
       this.props.getQuotes()
     }
@@ -24,8 +25,11 @@ import ExpandQuote from './expandQuote'
     }
 
     toggleExpand = (id) => {
-      console.log(id)
-      this.setState({openExpandMode: id})
+      this.setState({modalIsOpen: id + "_expand"})
+    }
+
+    toggleEdit = (id) => {
+      this.setState({modalIsOpen: id + "_edit"})
     }
 
     render() {
@@ -39,11 +43,18 @@ import ExpandQuote from './expandQuote'
                     <QuoteCard
                       quote={quote}
                       delete={this.deleteQuote}
-                      expand={this.toggleExpand}/>
+                      expand={this.toggleExpand}
+                      edit={this.toggleEdit}/>
                     <ExpandQuote 
                         quote={quote}
-                        isOpen={this.state.openExpandMode === quote._id}
-                        toggle={() => this.setState({openExpandMode: 'non'})}
+                        isOpen={this.state.modalIsOpen === `${quote._id}_expand`}
+                        toggle={() => this.setState({modalIsOpen: 'non'})}
+                        delete={this.deleteQuote}
+                        edit={this.toggleEdit}/>
+                    <EditQuote
+                        quote={quote}
+                        isOpen={this.state.modalIsOpen === `${quote._id}_edit`}
+                        toggle={() => this.setState({modalIsOpen: 'non'})}
                         delete={this.deleteQuote}/>
                   </div>
                 ))         

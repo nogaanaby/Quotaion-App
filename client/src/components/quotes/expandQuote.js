@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {Card, Button, CardHeader, CardFooter, CardBody,
-  CardTitle, CardText, ListGroup, ListGroupItem, Table, Modal, ModalBody, ModalHeader, ModalFooter
+  CardTitle, CardText, ListGroup, ListGroupItem, Table, Modal, ModalBody, 
+  ModalHeader, ModalFooter, InputGroupAddon, InputGroup, InputGroupText
 } from 'reactstrap';
 
 class ExpandQuote extends Component {
@@ -11,6 +12,9 @@ class ExpandQuote extends Component {
     };
   }
 
+  intFormat = (int) => {
+    return int.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
 
   render() {
     return (
@@ -41,16 +45,26 @@ class ExpandQuote extends Component {
           }   
           </tbody>
         </Table>
+        <InputGroup style={{display: 'flex', justifyContent: 'flex-end'}}>
+        <InputGroupAddon addonType="prepend">
+            <InputGroupText name="totalPrice">{this.intFormat(this.props.quote.totalPrice)}₪</InputGroupText>
+        </InputGroupAddon>
+        <InputGroupAddon addonType="prepend">
+            <InputGroupText name="title"> <b> מחיר סופי </b></InputGroupText>
+        </InputGroupAddon>
+        </InputGroup>
           </ModalBody>
           <CardFooter className="bg-torqiz-light">
             <div className="" style={{display: 'flex', justifyContent: 'flex-end'}}>
-              <Button outline className="btn-torqiz hor-gap">
+              <Button outline className="btn-torqiz hor-gap"
+                onClick={() => this.props.edit(this.props.quote._id)}>
                 <i className="far fa-edit"></i>
               </Button>
               <Button outline className="btn-torqiz hor-gap">
                 <i className="far fa-copy"></i>
               </Button>
-              <Button outline className="btn-torqiz hor-gap" onClick={() => this.props.delete(this.props.quote._id)}>
+              <Button outline className="btn-torqiz hor-gap" 
+                onClick={() => this.props.delete(this.props.quote._id)}>
                 <i className="far fa-trash-alt"></i>
               </Button>
             </div>

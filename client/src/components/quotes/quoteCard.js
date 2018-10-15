@@ -63,7 +63,7 @@ class QuoteCard extends Component {
         </CardBody>
       <CardFooter className="bg-torqiz-light">
         <div className="card-buttons">
-          <Button outline className="btn-torqiz">
+          <Button outline className="btn-torqiz" onClick={() => this.props.edit(this.props.quote._id)}>
               <i className="far fa-edit"></i>
             </Button>
             <Button outline className="btn-torqiz">

@@ -35,19 +35,19 @@ class AddService extends Component {
     return (
       <AddItemModal
         onSubmit={this.onSubmit}
-        header='Add Service'>
+        header='הוסף שירות חדש'>
         <FormGroup>
-          <Label for="item">Service Name</Label>
+          <Label for="item">שם השירות</Label>
           <Input
             type="text"
             name="name"
             id="serviceName"
-            placeholder="Add service"
+            placeholder="תיקון מנורות בחושך"
             onChange={this.onChange}
           />
         </FormGroup>
         <FormGroup>
-          <Label for="item">Service Price</Label>
+          <Label for="item">מחיר</Label>
           <Input
             type="number"
             name="price"

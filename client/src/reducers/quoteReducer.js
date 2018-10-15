@@ -1,5 +1,5 @@
 
-import { GET_QUOTES, ADD_QUOTE, ITEMS_LOADING, DELETE_QUOTE } from '../actions/types'
+import { GET_QUOTES, ADD_QUOTE, ITEMS_LOADING, DELETE_QUOTE, EDIT_QUOTE } from '../actions/types'
 
 const initalState = {
   quotes: [],
@@ -20,6 +20,14 @@ export default function( state = initalState, action ) {
         quotes: [action.payload, ...state.quotes],
         loading: false
       }
+    case EDIT_QUOTE:
+      const temp = [...state.quotes]
+      temp.splice(action.payload.index, 1, action.payload.quote)
+      return {
+        ...state,
+        quotes: temp,
+        loading: false
+      }      
     case DELETE_QUOTE:
       return {
         ...state,

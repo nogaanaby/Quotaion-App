@@ -81,7 +81,7 @@ import AddService from './addService';
                       </Button>
                     </td>
                   </tr>
-                ))            
+                ))
               }
               </tbody>
             </Table>

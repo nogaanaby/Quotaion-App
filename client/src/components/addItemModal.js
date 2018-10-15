@@ -13,7 +13,7 @@ import {
 class ItemModal extends Component {
 
   static defaultProps = {
-    onClose() {
+    actionOnToggle(){
 
     }
   };
@@ -21,21 +21,20 @@ class ItemModal extends Component {
   constructor(props){
     super(props)
     this.state = {
-      modal: false
+      isOpen: false
     }
   }
 
   toggle = () => {
+    this.props.actionOnToggle()
     this.setState({
-      modal: !this.state.modal
-    });
-    this.props.onClose()
-  };
+      isOpen: !this.state.isOpen
+    })
+  }
 
   onSubmit = e => {
     e.preventDefault();
     this.props.onSubmit()
-    this.toggle();
   };
 
   render() {
@@ -45,7 +44,7 @@ class ItemModal extends Component {
           <i className="fas fa-plus-circle fa-3x floating-icon"></i>
         </a>
 
-        <Modal isOpen={this.state.modal} toggle={this.toggle}>
+        <Modal isOpen={this.state.isOpen} toggle={this.toggle}>
           <ModalHeader className="bg-torqiz hebrow-header" toggle={this.toggle}>{this.props.header}</ModalHeader>
           <ModalBody>
             <Form onSubmit={this.onSubmit}>

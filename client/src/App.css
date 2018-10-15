@@ -97,6 +97,7 @@
 
 .quote-card{
   margin: 1.5rem;
+  width: 300px;
 }
 .quotes-container{
   display: flex;
