@@ -35,6 +35,7 @@ class ItemModal extends Component {
   onSubmit = e => {
     e.preventDefault();
     this.props.onSubmit()
+    this.toggle()
   };
 
   render() {
