@@ -40,7 +40,7 @@ class QuoteCard extends Component {
             </thead>
             <tbody>
               {
-                services
+                services && services[0]
                 ? <tr>
                     <th scope="row"></th>
                     <td>{services[0].totalPrice}₪</td>
