@@ -66,7 +66,7 @@ class QuoteCard extends Component {
           <Button outline className="btn-torqiz" onClick={() => this.props.edit(this.props.quote._id)}>
               <i className="far fa-edit"></i>
             </Button>
-            <Button outline className="btn-torqiz">
+            <Button outline className="btn-torqiz" onClick={() => this.props.duplicate(this.props.quote)}>
               <i className="far fa-copy"></i>
             </Button>
             <Button outline className="btn-torqiz" onClick={() => this.props.delete(this.props.quote._id)}>

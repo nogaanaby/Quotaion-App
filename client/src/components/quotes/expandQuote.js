@@ -60,7 +60,8 @@ class ExpandQuote extends Component {
                 onClick={() => this.props.edit(this.props.quote._id)}>
                 <i className="far fa-edit"></i>
               </Button>
-              <Button outline className="btn-torqiz hor-gap">
+              <Button outline className="btn-torqiz hor-gap"
+                onClick={() => this.props.duplicate(this.props.quote)}>
                 <i className="far fa-copy"></i>
               </Button>
               <Button outline className="btn-torqiz hor-gap" 
