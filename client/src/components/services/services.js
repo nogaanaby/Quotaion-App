@@ -8,13 +8,15 @@ import { connect } from 'react-redux'
 import { getItems, deleteItem } from '../../actions/itemActions'
 
 import AddService from './addService';
+import EditService from './editService';
+import SearchBox from '../searchBox';
 
   class Services extends Component {
      constructor(props){
        super(props)
         this.state = {
           items: [],
-          filter: ''
+          openEditMode: 'non'
         };
      }
 
@@ -24,45 +26,37 @@ import AddService from './addService';
     }
 
     componentWillReceiveProps(props){
-      const temp = props.item.items
-      temp.sort()
-      this.setState({items: temp})
+      this.setState({items: props.item.items})
     }
   
     deleteItem = (id) => {
       this.props.deleteItem(id)
     }
 
-    onChange = e => {
-      this.setState({ filter: e.target.value });
-      this.listSearch(e.target.value)
-    };
+    toggleEdit = (id) => {
+      this.setState({ openEditMode: id })
+    }
+
+    closeModal = () => {
+      this.setState({ openEditMode: 'non' })
+    }
   
-    listSearch = (value) => {
-      let temp = [...this.props.item.items]
-      temp = temp.filter((item) => item.name.includes(value))
-      this.setState({ items: temp });
+    getNewItemsList = (list) => {
+      this.setState({ items: list });
     }
 
     render() {
       const { items } = this.state
       return (
         <Container>
-          <FormGroup>
-            <InputGroup>
-              <InputGroupAddon addonType="append">
-                <InputGroupText>
-                  <i className="fas fa-search"></i>
-                </InputGroupText>
-              </InputGroupAddon>
-              <Input placeholder="sesrch"
-                onChange={this.onChange} />
-            </InputGroup>
-          </FormGroup>
+          <SearchBox
+            itemsList={this.props.item.items}
+            takeNewItemsList={this.getNewItemsList}>
             <Table>
               <thead>
                 <tr>
-                  <th></th>
+                  <th>ערוך</th>
+                  <th>מחק</th>
                   <th>מחיר</th>
                   <th>שם השירות</th>
                 </tr>
@@ -71,21 +65,30 @@ import AddService from './addService';
               {
                 items.map((item) =>(
                   <tr key={item._id}>
-                    <th scope="row">
-                    </th>
-                    <td>{item.price}₪</td>
-                    <td>{item.name}</td>
-                    <td className="card-buttons">
+                    <td>
+                      <Button outline className="btn-torqiz" onClick={() => this.toggleEdit(item._id)}>
+                        <i className="far fa-edit"></i>
+                      </Button>
+                      <EditService
+                        id={item._id}
+                        name={item.name}
+                        price={item.price}
+                        isOpen={this.state.openEditMode === item._id}
+                        closeModal={this.closeModal}/>
+                    </td>
+                    <td>
                       <Button outline className="btn-torqiz" onClick={() => this.deleteItem(item._id)}>
                         <i className="far fa-trash-alt"></i>
                       </Button>
                     </td>
+                    <td scope="row">{item.price}₪</td>
+                    <td>{item.name}</td>
                   </tr>
                 ))
               }
               </tbody>
             </Table>
-            
+            </SearchBox>
             <AddService/>
         </Container>
       );

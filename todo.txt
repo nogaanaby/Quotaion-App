@@ -20,4 +20,4 @@ with buttons: share, edit, remove and duplicate
 when click it opens the edit mode
 and enable to edit
 
-deploy on gh-pages
+deploy on heroku

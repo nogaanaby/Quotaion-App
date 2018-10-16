@@ -31,6 +31,7 @@ import EditQuote from './editQuote'
         totalPrice: quote.totalPrice
       }
       this.props.addQuote(copied)
+      this.setState({modalIsOpen: 'non'})
     }
 
     toggleExpand = (id) => {

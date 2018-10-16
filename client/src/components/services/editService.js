@@ -5,47 +5,41 @@ import {
   Input
 } from 'reactstrap';
 import { connect } from 'react-redux';
-import { addItem } from '../../actions/itemActions';
+import { addItem, deleteItem } from '../../actions/itemActions';
 import SimpleModal from '../simpleModal'
 import ServiceForm from './serviceForm'
 import PropTypes from 'prop-types'
 
-class AddService extends Component {
-  state = {
-    isOpen: false
-  };
+class EditService extends Component {
+  constructor(props){
+    super(props);
+    this.state = {
 
-  toggle = () => {
-    this.setState({ isOpen: !this.state.isOpen });
-  };
-
+    };
+  }
   submit = (newItem) => {
+    this.props.deleteItem(this.props.id)
     this.props.addItem(newItem);
-    this.setState({ isOpen: false });
+    this.props.closeModal();
   };
 
   render() {
     return (
-      <div>
-        <a href="#" onClick={this.toggle}>
-          <i className="fas fa-plus-circle fa-3x floating-icon"></i>
-        </a>
         <SimpleModal
-          toggle={this.toggle}
-          isOpen={this.state.isOpen}
-          header='הוסף שירות חדש'>
+          toggle={this.props.closeModal}
+          isOpen={this.props.isOpen}
+          header='ערוך שירות קיים'>
           <ServiceForm
             onSubmit={this.submit}
-            name=''
-            price={0}>
+            name={this.props.name}
+            price={this.props.price}>
           </ServiceForm>
         </SimpleModal>
-      </div>
     );
   }
 }
 
-AddService.propTypes = {
+EditService.propTypes = {
   addItem: PropTypes.func,
   item: PropTypes.object
 }
@@ -56,5 +50,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { addItem }
-)(AddService);
+  { addItem, deleteItem }
+)(EditService);
