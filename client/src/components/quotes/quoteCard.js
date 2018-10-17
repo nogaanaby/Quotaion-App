@@ -3,6 +3,7 @@ import {Card, Button, CardHeader, CardFooter, CardBody,
   CardTitle, CardText, ListGroup, ListGroupItem, Table
 } from 'reactstrap';
 import { Link } from 'react-router-dom'
+
 class QuoteCard extends Component {
   constructor(props){
     super(props);

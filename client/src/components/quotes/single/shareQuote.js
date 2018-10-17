@@ -5,7 +5,7 @@ import {Card, Button, CardHeader, CardFooter, CardBody,
 } from 'reactstrap';
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { sendQuote, getQuotes } from '../../actions/quoteActions'
+import { sendQuote, getQuotes } from '../../../actions/quoteActions'
 
 import SingleQuote from './singleQuote'
 

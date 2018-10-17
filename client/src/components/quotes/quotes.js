@@ -6,12 +6,11 @@ import { connect } from 'react-redux'
 import { getQuotes, deleteQuote, addQuote, sendQuote } from '../../actions/quoteActions'
 import { Switch, Route } from 'react-router-dom'
 
-import AppNavbar from '../appNavbar';
-import AddQuote from './addQuote';
+import AppNavbar from '../helpers/appNavbar';
+import AddQuote from './options/addQuote';
 import QuoteCard from './quoteCard'
-import ExpandQuote from './expandQuote'
-import EditQuote from './editQuote'
-import Spinner from '../spinner';
+import EditQuote from './options/editQuote'
+import Spinner from '../helpers/spinner';
 
   class Quotes extends Component {
 
@@ -57,13 +56,6 @@ import Spinner from '../spinner';
                       expand={this.expand}
                       edit={this.toggleEdit}
                       duplicate={this.duplicateQuote}/>
-                    <ExpandQuote
-                        quote={quote}
-                        isOpen={this.state.modalIsOpen === `${quote._id}_expand`}
-                        toggle={() => this.setState({modalIsOpen: 'non'})}
-                        delete={this.deleteQuote}
-                        edit={this.toggleEdit}
-                        duplicate={this.duplicateQuote}/>
                     <EditQuote
                         quote={quote}
                         quoteIndex={index}

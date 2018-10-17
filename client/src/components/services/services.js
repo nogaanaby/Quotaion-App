@@ -7,11 +7,11 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { getItems, deleteItem } from '../../actions/itemActions'
 
-import AppNavbar from '../appNavbar';
+import AppNavbar from '../helpers/appNavbar';
 import AddService from './addService';
 import EditService from './editService';
-import SearchBox from '../searchBox';
-import Spinner from '../spinner';
+import SearchBox from '../helpers/searchBox';
+import Spinner from '../helpers/spinner';
 
   class Services extends Component {
      constructor(props){

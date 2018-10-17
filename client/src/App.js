@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import Services from './components/services/services';
 import Quotes from './components/quotes/quotes';
-import ShareQuote from './components/quotes/shareQuote';
+import ShareQuote from './components/quotes/single/shareQuote';
 
 
 import 'bootstrap/dist/css/bootstrap.min.css'

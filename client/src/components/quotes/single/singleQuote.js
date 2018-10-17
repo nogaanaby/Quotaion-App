@@ -4,7 +4,7 @@ import {Card, Button, CardHeader, CardFooter, CardBody,
   ModalHeader, ModalFooter, InputGroupAddon, InputGroup, InputGroupText, Container
 } from 'reactstrap';
 
-import Spinner from '../spinner'
+import Spinner from '../../helpers/spinner'
 
 class SingleQuote extends Component {
 

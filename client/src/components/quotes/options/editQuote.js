@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import QuoteForm from './quoteForm'
-import SimpleModal from '../simpleModal'
+import QuoteForm from '../quoteForm/quoteForm'
+import SimpleModal from '../../helpers/simpleModal'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { getItems } from '../../actions/itemActions'
-import { editQuote } from '../../actions/quoteActions'
+import { getItems } from '../../../actions/itemActions'
+import { editQuote } from '../../../actions/quoteActions'
 
 class EditQuote extends Component {
   constructor(props){

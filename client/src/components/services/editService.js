@@ -6,7 +6,7 @@ import {
 } from 'reactstrap';
 import { connect } from 'react-redux';
 import { addItem, deleteItem } from '../../actions/itemActions';
-import SimpleModal from '../simpleModal'
+import SimpleModal from '../helpers/simpleModal'
 import ServiceForm from './serviceForm'
 import PropTypes from 'prop-types'
 
