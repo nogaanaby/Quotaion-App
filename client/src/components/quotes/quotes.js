@@ -3,12 +3,15 @@ import { Container, ListGroup, ListGroupItem, Button, Table,
   Card, CardImg, CardImgOverlay, CardTitle, CardText, ButtonGroup, CardDeck } from 'reactstrap';
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { getQuotes, deleteQuote, addQuote } from '../../actions/quoteActions'
+import { getQuotes, deleteQuote, addQuote, sendQuote } from '../../actions/quoteActions'
+import { Switch, Route } from 'react-router-dom'
 
+import AppNavbar from '../appNavbar';
 import AddQuote from './addQuote';
 import QuoteCard from './quoteCard'
 import ExpandQuote from './expandQuote'
 import EditQuote from './editQuote'
+import Spinner from '../spinner';
 
   class Quotes extends Component {
 
@@ -34,16 +37,14 @@ import EditQuote from './editQuote'
       this.setState({modalIsOpen: 'non'})
     }
 
-    toggleExpand = (id) => {
-      this.setState({modalIsOpen: id + "_expand"})
-    }
-
     toggleEdit = (id) => {
       this.setState({modalIsOpen: id + "_edit"})
     }
 
     render() {
       return (
+        <div>
+        <AppNavbar></AppNavbar>
         <div className="quotes-container">
           <AddQuote/>
             
@@ -53,7 +54,7 @@ import EditQuote from './editQuote'
                     <QuoteCard
                       quote={quote}
                       delete={this.deleteQuote}
-                      expand={this.toggleExpand}
+                      expand={this.expand}
                       edit={this.toggleEdit}
                       duplicate={this.duplicateQuote}/>
                     <ExpandQuote
@@ -70,9 +71,11 @@ import EditQuote from './editQuote'
                         toggle={() => this.setState({modalIsOpen: 'non'})}
                         delete={this.deleteQuote}/>
                   </div>
-                ))         
+                ))
               }
-              
+              <Spinner
+                isOpen={false}/>
+          </div>
         </div>
       );
     }
@@ -89,4 +92,4 @@ import EditQuote from './editQuote'
     quote: state.quote
   })
 
-  export default connect(mapStateToProps, { getQuotes, deleteQuote, addQuote }) (Quotes);
+  export default connect(mapStateToProps, { getQuotes, deleteQuote, addQuote, sendQuote }) (Quotes);

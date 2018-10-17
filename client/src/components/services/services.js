@@ -7,9 +7,11 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { getItems, deleteItem } from '../../actions/itemActions'
 
+import AppNavbar from '../appNavbar';
 import AddService from './addService';
 import EditService from './editService';
 import SearchBox from '../searchBox';
+import Spinner from '../spinner';
 
   class Services extends Component {
      constructor(props){
@@ -48,49 +50,55 @@ import SearchBox from '../searchBox';
     render() {
       const { items } = this.state
       return (
-        <Container>
-          <SearchBox
-            itemsList={this.props.item.items}
-            takeNewItemsList={this.getNewItemsList}>
-            <Table>
-              <thead>
-                <tr>
-                  <th>ערוך</th>
-                  <th>מחק</th>
-                  <th>מחיר</th>
-                  <th>שם השירות</th>
-                </tr>
-              </thead>
-              <tbody>
-              {
-                items.map((item) =>(
-                  <tr key={item._id}>
-                    <td>
-                      <Button outline className="btn-torqiz" onClick={() => this.toggleEdit(item._id)}>
-                        <i className="far fa-edit"></i>
-                      </Button>
-                      <EditService
-                        id={item._id}
-                        name={item.name}
-                        price={item.price}
-                        isOpen={this.state.openEditMode === item._id}
-                        closeModal={this.closeModal}/>
-                    </td>
-                    <td>
-                      <Button outline className="btn-torqiz" onClick={() => this.deleteItem(item._id)}>
-                        <i className="far fa-trash-alt"></i>
-                      </Button>
-                    </td>
-                    <td scope="row">{item.price}₪</td>
-                    <td>{item.name}</td>
-                  </tr>
-                ))
-              }
-              </tbody>
-            </Table>
-            </SearchBox>
+        <div>
+          <AppNavbar/>
+            <Container>
+              <SearchBox
+                itemsList={this.props.item.items}
+                takeNewItemsList={this.getNewItemsList}>
+                <Table>
+                  <thead>
+                    <tr>
+                      <th>ערוך</th>
+                      <th>מחק</th>
+                      <th>מחיר</th>
+                      <th>שם השירות</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  {
+                    items.map((item) =>(
+                      <tr key={item._id}>
+                        <td>
+                          <Button outline className="btn-torqiz" onClick={() => this.toggleEdit(item._id)}>
+                            <i className="far fa-edit"></i>
+                          </Button>
+                          <EditService
+                            id={item._id}
+                            name={item.name}
+                            price={item.price}
+                            isOpen={this.state.openEditMode === item._id}
+                            closeModal={this.closeModal}/>
+                        </td>
+                        <td>
+                          <Button outline className="btn-torqiz" onClick={() => this.deleteItem(item._id)}>
+                            <i className="far fa-trash-alt"></i>
+                          </Button>
+                        </td>
+                        <td scope="row">{item.price}₪</td>
+                        <td>{item.name}</td>
+                      </tr>
+                    ))
+                  }
+                  </tbody>
+                </Table>
+              </SearchBox>
             <AddService/>
-        </Container>
+            <Spinner
+            isOpen={this.props.item.loading}/>
+          </Container>
+        </div>
+        
       );
     }
   }

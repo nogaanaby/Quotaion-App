@@ -115,3 +115,20 @@
   padding: 0;
   margin: 0;
 }
+
+.spinner-modal{
+  background-color: rgba(0,0, 0, 0.2);
+  z-index: 1000;
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.fa-circle-notch{
+  color: #F0EADD;
+}

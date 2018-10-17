@@ -10,6 +10,12 @@ router.get('/', (req, res) => {
     .then(quotes => res.json(quotes))
 })
 
+router.get('/:id', (req, res) => {
+  Quote.findById(req.params.id)
+    .then(quote => res.json(quote))
+    .catch(err => res.status(404).json({success: false}))
+})
+
 router.post('/', (req, res) => {
   console.log(req.body)
   const newQuote = new Quote({

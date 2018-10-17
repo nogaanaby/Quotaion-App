@@ -1,18 +1,17 @@
 import React, { Component } from 'react';
 
-import AppNavbar from './components/appNavbar';
 import Services from './components/services/services';
 import Quotes from './components/quotes/quotes';
+import ShareQuote from './components/quotes/shareQuote';
+
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 import "@fortawesome/fontawesome-free/css/all.css";
-import { Container } from 'reactstrap';
 import './App.css';
 
 import { Switch, Route } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import store from './store'
-import Autocomplete from './components/autocomplete';
 
 
 class App extends Component {
@@ -20,10 +19,10 @@ class App extends Component {
     return (
       <Provider store={store}>
         <div className="App">
-          <AppNavbar/>
           <Switch>
             <Route exact path='/' component={Quotes}/>
             <Route path='/services' component={Services}/>
+            <Route exact path={`/shareQuote/:id`} component={ShareQuote}/>
           </Switch>
         </div>
       </Provider>

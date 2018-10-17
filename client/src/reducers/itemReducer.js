@@ -23,7 +23,8 @@ export default function( state = initalState, action ) {
     case DELETE_ITEM:
       return {
         ...state,
-        items: state.items.slice().filter((item) => item._id !== action.payload)
+        items: state.items.slice().filter((item) => item._id !== action.payload),
+        loading: false
       }
     case ITEMS_LOADING:
       return {

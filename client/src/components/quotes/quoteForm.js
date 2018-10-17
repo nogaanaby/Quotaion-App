@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  FormGroup, Label, Input, Collapse, Form,
+  FormGroup, Label, Input, Collapse, Form, FormFeedback,
   Dropdown, DropdownMenu,  DropdownItem, DropdownToggle, Button,
   ListGroup, ListGroupItem, InputGroup, InputGroupText, InputGroupAddon} from 'reactstrap';
 
@@ -14,7 +14,8 @@ class QuoteForm extends Component {
       quoteName: this.props.quoteName,
       items: this.props.items,
       services: this.props.services,
-      showNewServiceInput: false
+      showNewServiceInput: false,
+      invalidInput: false
     };
   }
 
@@ -26,17 +27,21 @@ class QuoteForm extends Component {
 
   onChange = e => {
     e.preventDefault()
-    this.setState({ [e.target.name]: e.target.value });
+    this.setState({ [e.target.name]: e.target.value, invalidInput: false });
   };
 
   submitQuote = () => {
-    const newQuote = {
-      name: this.state.quoteName,
-      services: this.state.services,
-      totalPrice: this.calcTotalPrice()
-    };
+    if(this.state.quoteName !== '') {
+      const newQuote = {
+        name: this.state.quoteName,
+        services: this.state.services,
+        totalPrice: this.calcTotalPrice()
+      };
 
-    this.props.onSubmit(newQuote)
+      this.props.onSubmit(newQuote)
+    } else {
+      this.setState({ invalidInput: true });
+    }
   }
 
   removeService = (index) => {
@@ -99,7 +104,9 @@ class QuoteForm extends Component {
             placeholder="לכבוד גברת לקוח"
             onChange={this.onChange}
             autoComplete="off"
+            invalid={this.state.invalidInput}
           />
+          <FormFeedback>נראה לי ששכחת פה משהו</FormFeedback>
         </FormGroup>
         
         {

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {Card, Button, CardHeader, CardFooter, CardBody,
   CardTitle, CardText, ListGroup, ListGroupItem, Table
 } from 'reactstrap';
-
+import { Link } from 'react-router-dom'
 class QuoteCard extends Component {
   constructor(props){
     super(props);
@@ -72,9 +72,11 @@ class QuoteCard extends Component {
             <Button outline className="btn-torqiz" onClick={() => this.props.delete(this.props.quote._id)}>
               <i className="far fa-trash-alt"></i>
             </Button>
-            <Button outline className="btn-torqiz" onClick={() => this.props.expand(this.props.quote._id)}>
-              <i className="fas fa-expand"></i>
-            </Button>
+            <Link to={`/shareQuote/${this.props.quote._id}`}>
+              <Button outline className="btn-torqiz">
+                <i className="fas fa-expand"></i>
+              </Button>
+            </Link>
           </div>
         </CardFooter>
       </Card>

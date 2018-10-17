@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { GET_QUOTES, ADD_QUOTE, ITEMS_LOADING, DELETE_QUOTE, EDIT_QUOTE } from './types'
+import { GET_QUOTES, SEND_QUOTE, ADD_QUOTE, ITEMS_LOADING, DELETE_QUOTE, EDIT_QUOTE } from './types'
 
 export const getQuotes = () => dispatch => {
   dispatch(setItemsLoading())
@@ -8,6 +8,17 @@ export const getQuotes = () => dispatch => {
     .then(res => 
       dispatch({
         type: GET_QUOTES,
+        payload: res.data
+      }))
+}
+
+export const sendQuote = (id) => dispatch => {
+  dispatch(setItemsLoading())
+  axios
+    .get(`/api/quotes/${id}`, id)
+    .then(res =>
+      dispatch({
+        type: SEND_QUOTE,
         payload: res.data
       }))
 }

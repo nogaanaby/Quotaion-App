@@ -1,5 +1,5 @@
 
-import { GET_QUOTES, ADD_QUOTE, ITEMS_LOADING, DELETE_QUOTE, EDIT_QUOTE } from '../actions/types'
+import { GET_QUOTES, SEND_QUOTE, ADD_QUOTE, ITEMS_LOADING, DELETE_QUOTE, EDIT_QUOTE } from '../actions/types'
 
 const initalState = {
   quotes: [],
@@ -9,6 +9,12 @@ const initalState = {
 export default function( state = initalState, action ) {
   switch(action.type) {
     case GET_QUOTES:
+      return {
+        ...state,
+        quotes: action.payload,
+        loading: false
+      }
+    case SEND_QUOTE:
       return {
         ...state,
         quotes: action.payload,
