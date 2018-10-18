@@ -3,6 +3,10 @@ import {Card, Button, CardHeader, CardFooter, CardBody,
   CardTitle, CardText, ListGroup, ListGroupItem, Table
 } from 'reactstrap';
 import { Link } from 'react-router-dom'
+import {
+  WhatsappShareButton,
+  EmailShareButton
+} from 'react-share';
 
 class QuoteCard extends Component {
   constructor(props){
@@ -78,6 +82,15 @@ class QuoteCard extends Component {
                 <i className="fas fa-expand"></i>
               </Button>
             </Link>
+
+            <WhatsappShareButton 
+              url={`/shareQuote/${this.props.quote._id}`}
+              title={this.props.quote.name}
+              separator=" ">
+              <Button outline className="btn-torqiz">
+                <i className="fab fa-whatsapp"></i>
+              </Button>  
+            </WhatsappShareButton>
           </div>
         </CardFooter>
       </Card>
