@@ -85,7 +85,7 @@ class QuoteCard extends Component {
 
             <WhatsappShareButton 
               url={`/shareQuote/${this.props.quote._id}`}
-              title={this.props.quote.name}
+              title="Dear Costumer, I send You This Quotaion"
               separator=" ">
               <Button outline className="btn-torqiz">
                 <i className="fab fa-whatsapp"></i>
