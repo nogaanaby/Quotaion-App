@@ -1,49 +1,32 @@
 
-import { GET_QUOTES, SEND_QUOTE, ADD_QUOTE, ITEMS_LOADING, DELETE_QUOTE, EDIT_QUOTE } from '../actions/types'
+import { GET_QUOTES, ADD_QUOTE, QUOTES_LOADING, DELETE_QUOTE } from '../actions/types'
 
 const initalState = {
   quotes: [],
-  loading: false
+  quotesLoading: false
 }
 
 export default function( state = initalState, action ) {
   switch(action.type) {
     case GET_QUOTES:
       return {
-        ...state,
-        quotes: action.payload,
-        loading: false
-      }
-    case SEND_QUOTE:
-      return {
-        ...state,
-        quotes: action.payload,
-        loading: false
+        quotesLoading: false,
+        quotes: action.payload
       }
     case ADD_QUOTE:
       return {
-        ...state,
         quotes: [action.payload, ...state.quotes],
-        loading: false
-      }
-    case EDIT_QUOTE:
-      const temp = [...state.quotes]
-      temp.splice(action.payload.index, 1, action.payload.quote)
-      return {
-        ...state,
-        quotes: temp,
-        loading: false
-      }      
+        quotesLoading: false
+      }   
     case DELETE_QUOTE:
       return {
-        ...state,
         quotes: state.quotes.slice().filter((quote) => quote._id !== action.payload),
-        loading: false
+        quotesLoading: false
       }
-    case ITEMS_LOADING:
+    case QUOTES_LOADING:
       return {
         ...state,
-        loading: true
+        quotesLoading: true
       }      
     default:
       return state;

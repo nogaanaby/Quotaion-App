@@ -9,7 +9,6 @@ export const ITEMS_LOADING  = 'ITEMS_LOADING'
 /***************   QUOTES  *********************/
 export const GET_QUOTES = 'GET_QUOTES'
 export const ADD_QUOTE = 'ADD_QUOTE'
-export const EDIT_QUOTE = 'EDIT_QUOTE'
 export const DELETE_QUOTE = 'DELETE_QUOTE'
 export const COPY_QUOTE = 'COPY_QUOTE'
-export const SEND_QUOTE = 'SEND_QUOTE'
+export const QUOTES_LOADING  = 'QUOTES_LOADING'

@@ -5,7 +5,7 @@ import {Card, Button, CardHeader, CardFooter, CardBody,
 } from 'reactstrap';
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { sendQuote, getQuotes } from '../../../actions/quoteActions'
+import { getQuotes } from '../../../actions/quoteActions'
 
 import SingleQuote from './singleQuote'
 
@@ -45,7 +45,7 @@ class ShareQuote extends Component {
 }
 
 ShareQuote.propTypes = {
-  sendQuote: PropTypes.func,
+  getQuotes: PropTypes.func,
   quote: PropTypes.object.isRequired
 }
 
@@ -53,4 +53,4 @@ const mapStateToProps = (state) => ({
   quote: state.quote
 })
 
-export default connect(mapStateToProps, { getQuotes, sendQuote }) (ShareQuote);
+export default connect(mapStateToProps, { getQuotes }) (ShareQuote);

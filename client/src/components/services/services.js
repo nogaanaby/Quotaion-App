@@ -95,7 +95,7 @@ import Spinner from '../helpers/spinner';
               </SearchBox>
             <AddService/>
             <Spinner
-            isOpen={this.props.item.loading}/>
+            isOpen={this.props.item.itemsLoading}/>
           </Container>
         </div>
         

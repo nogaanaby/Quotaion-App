@@ -1,10 +1,6 @@
 import React, { Component } from 'react';
 import QuoteForm from '../quoteForm/quoteForm'
 import SimpleModal from '../../helpers/simpleModal'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import { getItems } from '../../../actions/itemActions'
-import { addQuote } from '../../../actions/quoteActions'
 
 class AddQuote extends Component {
   constructor(props){
@@ -15,12 +11,9 @@ class AddQuote extends Component {
       isOpen: false
     };
   }
-  componentWillMount = () => {
-    this.props.getItems()
-  }
 
   submitQuote = (newQuote) => {
-    this.props.addQuote(newQuote);
+    this.props.onSubmit(newQuote);
     this.toggle()
   };
 
@@ -54,16 +47,4 @@ class AddQuote extends Component {
   }
 }
 
-AddQuote.propTypes = {
-  addQuote: PropTypes.func,
-  item: PropTypes.object
-}
-
-const mapStateToProps = state => ({
-  items: state.item.items
-});
-
-export default connect(
-  mapStateToProps,
-  { addQuote, getItems }
-)(AddQuote);
+export default AddQuote;

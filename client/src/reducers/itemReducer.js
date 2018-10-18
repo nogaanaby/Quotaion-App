@@ -3,33 +3,30 @@ import { GET_ITEMS, ADD_ITEM, DELETE_ITEM, ITEMS_LOADING } from '../actions/type
 
 const initalState = {
   items: [],
-  loading: false
+  itemsLoading: false
 }
 
 export default function( state = initalState, action ) {
   switch(action.type) {
     case GET_ITEMS:
       return {
-        ...state,
         items: action.payload,
-        loading: false
+        itemsLoading: false
       }
     case ADD_ITEM:
       return {
-        ...state,
         items: [action.payload, ...state.items],
-        loading: false
+        itemsLoading: false
       }
     case DELETE_ITEM:
       return {
-        ...state,
         items: state.items.slice().filter((item) => item._id !== action.payload),
-        loading: false
+        itemsLoading: false
       }
     case ITEMS_LOADING:
       return {
         ...state,
-        loading: true
+        itemsLoading: true
       }
     default:
       return state;

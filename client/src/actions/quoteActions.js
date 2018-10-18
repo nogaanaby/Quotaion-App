@@ -1,8 +1,8 @@
 import axios from 'axios'
-import { GET_QUOTES, SEND_QUOTE, ADD_QUOTE, ITEMS_LOADING, DELETE_QUOTE, EDIT_QUOTE } from './types'
+import { GET_QUOTES, ADD_QUOTE, QUOTES_LOADING, DELETE_QUOTE } from './types'
 
 export const getQuotes = () => dispatch => {
-  dispatch(setItemsLoading())
+  dispatch(setQuotesLoading())
   axios
     .get('/api/quotes')
     .then(res => 
@@ -12,19 +12,8 @@ export const getQuotes = () => dispatch => {
       }))
 }
 
-export const sendQuote = (id) => dispatch => {
-  dispatch(setItemsLoading())
-  axios
-    .get(`/api/quotes/${id}`, id)
-    .then(res =>
-      dispatch({
-        type: SEND_QUOTE,
-        payload: res.data
-      }))
-}
-
 export const addQuote = (quote) => dispatch => {
-  dispatch(setItemsLoading())
+  dispatch(setQuotesLoading())
   axios
     .post('/api/quotes', quote)
     .then(res => 
@@ -34,19 +23,8 @@ export const addQuote = (quote) => dispatch => {
       }))
 }
 
-export const editQuote = (quoteObj) => dispatch => {
-  dispatch(setItemsLoading())
-  axios
-    .post('/api/quotes', quoteObj.quote)
-    .then(res => 
-      dispatch({
-        type: EDIT_QUOTE,
-        payload: quoteObj
-      }))
-}
-
 export const deleteQuote = (id) => dispatch => {
-  dispatch(setItemsLoading())
+  dispatch(setQuotesLoading())
   axios
     .delete(`/api/quotes/${id}`, id)
     .then(res => 
@@ -56,8 +34,8 @@ export const deleteQuote = (id) => dispatch => {
       }))
 }
 
-export const setItemsLoading = () => {
+export const setQuotesLoading = () => {
   return {
-    type: ITEMS_LOADING
+    type: QUOTES_LOADING
   }
 }

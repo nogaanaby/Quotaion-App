@@ -22,8 +22,9 @@ class SingleQuote extends Component {
   render() {
   if(this.props.quote.name){
    return (
-      <Container>
+      <div>
         <ModalHeader className="bg-torqiz hebrow-header" >{this.props.quote.name}</ModalHeader>
+          <Container>
           <Table>
           <thead>
             <tr>
@@ -56,8 +57,8 @@ class SingleQuote extends Component {
             <InputGroupText name="title"> <b> מחיר סופי </b></InputGroupText>
         </InputGroupAddon>
         </InputGroup>
-        
-      </Container>
+        </Container>
+      </div>
     )} else {
     return <Spinner
         isOpen={true}></Spinner>

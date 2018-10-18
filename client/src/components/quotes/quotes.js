@@ -3,8 +3,8 @@ import { Container, ListGroup, ListGroupItem, Button, Table,
   Card, CardImg, CardImgOverlay, CardTitle, CardText, ButtonGroup, CardDeck } from 'reactstrap';
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { getQuotes, deleteQuote, addQuote, sendQuote } from '../../actions/quoteActions'
-import { Switch, Route } from 'react-router-dom'
+import { getQuotes, deleteQuote, addQuote } from '../../actions/quoteActions'
+import { getItems } from '../../actions/itemActions'
 
 import AppNavbar from '../helpers/appNavbar';
 import AddQuote from './options/addQuote';
@@ -14,16 +14,24 @@ import Spinner from '../helpers/spinner';
 
   class Quotes extends Component {
 
-    state = {
-      modalIsOpen: 'non'
+    constructor(props){
+      super(props)
+       this.state = {
+        modalIsOpen: 'non'
+      }
     }
     
     componentWillMount(){
       this.props.getQuotes()
+      this.props.getItems()
     }
 
     deleteQuote = (id) => {
       this.props.deleteQuote(id)
+    }
+
+    submitChange = (newQuote) => {
+      this.props.addQuote(newQuote)
     }
 
     duplicateQuote = (quote) => {
@@ -45,7 +53,9 @@ import Spinner from '../helpers/spinner';
         <div>
         <AppNavbar></AppNavbar>
         <div className="quotes-container">
-          <AddQuote/>
+          <AddQuote
+            items={this.props.item.items}
+            onSubmit={this.submitChange}/>
             
               {
                 this.props.quote.quotes.map((quote, index) =>(
@@ -57,16 +67,18 @@ import Spinner from '../helpers/spinner';
                       edit={this.toggleEdit}
                       duplicate={this.duplicateQuote}/>
                     <EditQuote
-                        quote={quote}
-                        quoteIndex={index}
-                        isOpen={this.state.modalIsOpen === `${quote._id}_edit`}
-                        toggle={() => this.setState({modalIsOpen: 'non'})}
-                        delete={this.deleteQuote}/>
+                      quote={quote}
+                      quoteIndex={index}
+                      isOpen={this.state.modalIsOpen === `${quote._id}_edit`}
+                      toggle={() => this.setState({modalIsOpen: 'non'})}
+                      onDelete={this.deleteQuote}
+                      items={this.props.item.items}
+                      onSubmit={this.submitChange}/>
                   </div>
                 ))
               }
               <Spinner
-                isOpen={false}/>
+                isOpen={this.props.item.itemsLoading || this.props.quote.quotesLoading}/>
           </div>
         </div>
       );
@@ -77,11 +89,13 @@ import Spinner from '../helpers/spinner';
     getQuotes: PropTypes.func,
     deleteQuote: PropTypes.func,
     addQuote: PropTypes.func,
-    Quote: PropTypes.object
+    getItems: PropTypes.func,
+    quote: PropTypes.object
   }
 
   const mapStateToProps = (state) => ({
-    quote: state.quote
+    quote: state.quote,
+    item: state.item
   })
 
-  export default connect(mapStateToProps, { getQuotes, deleteQuote, addQuote, sendQuote }) (Quotes);
+  export default connect(mapStateToProps, { getQuotes, deleteQuote, addQuote, getItems }) (Quotes);
