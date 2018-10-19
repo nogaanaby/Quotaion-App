@@ -24,6 +24,11 @@ class QuoteCard extends Component {
     }
   }
 
+  calcFinalPrice = (price) => {
+    const opositPercent = (100 - this.props.quote.discount)/100
+    return price * opositPercent
+  }
+
   intFormat = (int) => {
     return int.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
@@ -34,7 +39,10 @@ class QuoteCard extends Component {
       <Card className="quote-card">
         <CardHeader className="bg-torqiz">{this.props.quote.name}</CardHeader>
         <CardBody>
-          <CardTitle>{this.intFormat(this.props.quote.totalPrice)}₪</CardTitle>
+          <CardTitle>
+            {this.intFormat(this.calcFinalPrice(this.props.quote.totalPrice))}₪
+            <small> <strike> {this.intFormat(this.props.quote.totalPrice)}₪ </strike></small>
+          </CardTitle>
           <Table>
             <thead>
               <tr>
@@ -84,9 +92,10 @@ class QuoteCard extends Component {
             </Link>
 
             <WhatsappShareButton 
-              url={`/shareQuote/${this.props.quote._id}`}
-              title="Dear Costumer, I send You This Quotaion"
-              separator=" ">
+              url={`https://fierce-bayou-46253.herokuapp.com/shareQuote/${this.props.quote._id}`}
+              title={this.props.quote.name}
+              separator=" "
+              >
               <Button outline className="btn-torqiz">
                 <i className="fab fa-whatsapp"></i>
               </Button>  

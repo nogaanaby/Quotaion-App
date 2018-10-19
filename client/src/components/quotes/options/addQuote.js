@@ -39,6 +39,7 @@ class AddQuote extends Component {
           quoteName={this.state.quoteName}
           items={this.props.items}
           services={this.state.services}
+          discount={0}
           onSubmit={this.submitQuote}>  
         </QuoteForm>
       </SimpleModal>

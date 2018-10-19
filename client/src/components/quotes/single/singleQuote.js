@@ -19,6 +19,11 @@ class SingleQuote extends Component {
     return int.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
 
+  calcFinalPrice = (price) => {
+    const opositPercent = (100 - this.props.quote.discount)/100
+    return price * opositPercent
+  }
+
   render() {
   if(this.props.quote.name){
    return (
@@ -50,13 +55,26 @@ class SingleQuote extends Component {
           </tbody>
         </Table>
         <InputGroup style={{display: 'flex', justifyContent: 'flex-end'}}>
-        <InputGroupAddon addonType="prepend">
-            <InputGroupText name="totalPrice">{this.intFormat(this.props.quote.totalPrice)}₪</InputGroupText>
-        </InputGroupAddon>
+          {
+            this.props.quote.discount > 0
+            ? <InputGroupAddon addonType="prepend">
+                    <InputGroupText name="totalPrice">
+                      <b> {this.intFormat(this.calcFinalPrice(this.props.quote.totalPrice))} </b>
+                      <small><strike>{this.intFormat(this.props.quote.totalPrice)}₪</strike></small>
+                    </InputGroupText>
+                </InputGroupAddon>
+            
+
+            : <InputGroupAddon addonType="prepend">
+                  <InputGroupText name="totalPrice">{this.intFormat(this.props.quote.totalPrice)}₪</InputGroupText>
+              </InputGroupAddon>
+          }
+
         <InputGroupAddon addonType="prepend">
             <InputGroupText name="title"> <b> מחיר סופי </b></InputGroupText>
         </InputGroupAddon>
         </InputGroup>
+
         </Container>
       </div>
     )} else {

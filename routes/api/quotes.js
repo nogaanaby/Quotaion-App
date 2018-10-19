@@ -21,7 +21,8 @@ router.post('/', (req, res) => {
   const newQuote = new Quote({
     name: req.body.name,
     services: req.body.services,
-    totalPrice: req.body.totalPrice
+    totalPrice: req.body.totalPrice,
+    discount: req.body.discount
   })
 
   newQuote.save()

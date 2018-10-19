@@ -38,7 +38,8 @@ import Spinner from '../helpers/spinner';
       const copied = {
         name: 'copy of ' + quote.name,
         services: quote.services,
-        totalPrice: quote.totalPrice
+        totalPrice: quote.totalPrice,
+        discount: quote.discount
       }
       this.props.addQuote(copied)
       this.setState({modalIsOpen: 'non'})

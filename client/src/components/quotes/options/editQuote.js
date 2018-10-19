@@ -27,7 +27,8 @@ class EditQuote extends Component {
         onSubmit={this.onSubmit}
         quoteName={this.props.quote.name}
         items={this.props.items}
-        services={this.props.quote.services}>
+        services={this.props.quote.services}
+        discount={this.props.quote.discount}>
         
       </QuoteForm>
       </SimpleModal>

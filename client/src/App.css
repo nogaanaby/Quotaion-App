@@ -75,8 +75,8 @@
 }
 
 .hor-gap{
-  margin-right: 5px;
-  margin-left: 5px;
+  margin-right: 1.2rem;
+  margin-left: 1.2rem;
 }
 .grey-text{
   color: grey;
@@ -134,4 +134,20 @@
 
 .fa-circle-notch{
   color: #F0EADD;
+}
+
+.fullWidth{
+  width: 100%;
+}
+
+.right{
+  justify-content: flex-end;
+}
+
+.no-margin{
+  margin: 0px;
+}
+
+.bold-border{
+  border: 2px solid gray;
 }

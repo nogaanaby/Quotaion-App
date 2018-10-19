@@ -5,6 +5,7 @@ import {
   ListGroup, ListGroupItem, InputGroup, InputGroupText, InputGroupAddon} from 'reactstrap';
 
 import ServiceInput from './serviceInput'
+import Discount from './discount'
 
 class QuoteForm extends Component {
 
@@ -15,7 +16,9 @@ class QuoteForm extends Component {
       items: this.props.items,
       services: this.props.services,
       showNewServiceInput: false,
-      invalidInput: false
+      invalidInput: false,
+      discount: this.props.discount,
+      invalidDiscount: false
     };
   }
 
@@ -31,15 +34,18 @@ class QuoteForm extends Component {
   };
 
   submitQuote = () => {
-    if(this.state.quoteName !== '') {
+    const emptyName = this.state.quoteName === ''
+    const invalidDiscount = this.state.invalidDiscount
+    if(!emptyName && !invalidDiscount) {
       const newQuote = {
         name: this.state.quoteName,
         services: this.state.services,
-        totalPrice: this.calcTotalPrice()
+        totalPrice: this.calcTotalPrice(),
+        discount: this.state.discount
       };
 
       this.props.onSubmit(newQuote)
-    } else {
+    } else if(emptyName) {
       this.setState({ invalidInput: true });
     }
   }
@@ -85,6 +91,16 @@ class QuoteForm extends Component {
       }
     })
     return count
+  }
+
+  addDiscount = (value) => {
+    this.setState({discount: value})
+  }
+
+  validateDiscount = (direction) => {
+    direction === 'invalid'
+    ? this.setState({ invalidDiscount: true })
+    : this.setState({ invalidDiscount: false })
   }
 
   intFormat = (int) => {
@@ -141,12 +157,13 @@ class QuoteForm extends Component {
             </Button>
           </InputGroupAddon>
         </FormGroup>
-        <FormGroup>
 
-          <InputGroupAddon addonType="prepend">
-            <InputGroupText name="totalPrice">{this.intFormat(this.calcTotalPrice())}₪</InputGroupText>
-          </InputGroupAddon>
-        </FormGroup>
+        <Discount
+          prevPrice={this.calcTotalPrice()}
+          discount={this.props.discount}
+          onDiscount={this.addDiscount}
+          validateDiscount={ this.validateDiscount }>
+        </Discount>
 
         <FormGroup>
           <Button color="success" style={{ marginTop: '2rem' }} block
