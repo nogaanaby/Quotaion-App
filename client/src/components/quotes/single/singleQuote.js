@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Card, Button, CardHeader, CardFooter, CardBody,
+import {Card, Button, CardHeader, CardFooter, CardBody, Row, Col,
   CardTitle, CardText, ListGroup, ListGroupItem, Table, Modal, ModalBody, 
   ModalHeader, ModalFooter, InputGroupAddon, InputGroup, InputGroupText, Container
 } from 'reactstrap';
@@ -29,6 +29,34 @@ class SingleQuote extends Component {
    return (
       <div>
         <ModalHeader className="bg-torqiz hebrow-header" >{this.props.quote.name}</ModalHeader>
+          
+          <Container style={{marginTop: '20px'}}>
+            {
+              this.props.quote.subject !== ''
+                ? <h4>
+                    <b> הנידון: </b>
+                    {this.props.quote.subject}
+                  </h4>
+                : ''
+            }
+            {
+              this.props.quote.address.street !== ''
+                ? <span>
+                    <p className="no-margin"> 
+                    
+                    {`
+                       ${this.props.quote.address.city},   
+                       ${this.props.quote.address.street}  
+                       ${this.props.quote.address.houseNumber}  
+                    `} 
+                    
+                    </p>
+                  </span>
+                : ''
+            }
+            
+          </Container>
+
           <Container>
           <Table>
           <thead>
@@ -45,9 +73,9 @@ class SingleQuote extends Component {
             this.props.quote.services.map((service)=>{
               return <tr key={service._id}>
                         <th scope="row"></th>
-                        <td>{service.totalPrice}₪</td>
+                        <td>{this.intFormat(service.totalPrice)}₪</td>
                         <td>{service.quantity}</td>
-                        <td>{service.price}₪</td>
+                        <td>{this.intFormat(service.price)}₪</td>
                         <td>{service.name}</td>
                       </tr>
             })
@@ -60,7 +88,7 @@ class SingleQuote extends Component {
             ? <InputGroupAddon addonType="prepend">
                     <InputGroupText name="totalPrice">
                       <b> {this.intFormat(this.calcFinalPrice(this.props.quote.totalPrice))} </b>
-                      <small><strike>{this.intFormat(this.props.quote.totalPrice)}₪</strike></small>
+                      <strike>{this.intFormat(this.props.quote.totalPrice)}₪</strike>
                     </InputGroupText>
                 </InputGroupAddon>
             
@@ -70,11 +98,32 @@ class SingleQuote extends Component {
               </InputGroupAddon>
           }
 
-        <InputGroupAddon addonType="prepend">
-            <InputGroupText name="title"> <b> מחיר סופי </b></InputGroupText>
-        </InputGroupAddon>
-        </InputGroup>
+          <InputGroupAddon addonType="prepend">
+              <InputGroupText name="title"> <b> מחיר סופי לא כולל מע"מ </b></InputGroupText>
+          </InputGroupAddon>
+          </InputGroup>
 
+          <Container style={{marginTop: '20px'}}>
+          {
+              this.props.quote.comment !== ''
+                ? <span>
+                  
+                    <p className="no-margin">
+                    <b> הערה </b>
+                      {this.props.quote.comment}
+
+                    </p>
+                  </span>
+                : ''
+            }
+            </Container>
+          
+            <Container style={{marginTop: '20px'}}>
+              <p>,בכבוד רב
+                <br />
+                ישראל צירלין
+              </p>
+            </Container>
         </Container>
       </div>
     )} else {

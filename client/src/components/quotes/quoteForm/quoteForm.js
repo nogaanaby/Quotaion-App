@@ -6,18 +6,23 @@ import {
 
 import ServiceInput from './serviceInput'
 import Discount from './discount'
+import Message from './message'
 
 class QuoteForm extends Component {
 
   constructor(props){
     super(props);
+    const {quote} = this.props
     this.state = {
-      quoteName: this.props.quoteName,
+      quoteName: quote.name,
+      subject: quote.subject,
+      address: quote.address,
+      comment: quote.comment,
       items: this.props.items,
-      services: this.props.services,
+      services: quote.services,
       showNewServiceInput: false,
       invalidInput: false,
-      discount: this.props.discount,
+      discount: quote.discount,
       invalidDiscount: false
     };
   }
@@ -28,25 +33,22 @@ class QuoteForm extends Component {
     }
   }
 
-  onChange = e => {
-    e.preventDefault()
-    this.setState({ [e.target.name]: e.target.value, invalidInput: false });
-  };
-
   submitQuote = () => {
     const emptyName = this.state.quoteName === ''
     const invalidDiscount = this.state.invalidDiscount
     if(!emptyName && !invalidDiscount) {
+
       const newQuote = {
         name: this.state.quoteName,
+        subject: this.state.subject,
+        address: this.state.address,
+        comment: this.state.comment,
         services: this.state.services,
         totalPrice: this.calcTotalPrice(),
         discount: this.state.discount
       };
 
       this.props.onSubmit(newQuote)
-    } else if(emptyName) {
-      this.setState({ invalidInput: true });
     }
   }
 
@@ -103,6 +105,15 @@ class QuoteForm extends Component {
     : this.setState({ invalidDiscount: false })
   }
 
+  getMessage = (newMessage) => {
+    this.setState({
+      quoteName: newMessage.costumerName,
+      subject: newMessage.subject,
+      address: newMessage.address,
+      comment: newMessage.comment,
+    })
+  }
+
   intFormat = (int) => {
     return int.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
@@ -110,20 +121,9 @@ class QuoteForm extends Component {
   render() {
     return (
       <Form onSubmit={this.submitQuote}>
-        <FormGroup>
-          <Label for="item">שם הלקוח</Label>
-          <Input
-            type="text"
-            name="quoteName"
-            id="QuoteName"
-            value={this.state.quoteName}
-            placeholder="לכבוד גברת לקוח"
-            onChange={this.onChange}
-            autoComplete="off"
-            invalid={this.state.invalidInput}
-          />
-          <FormFeedback>נראה לי ששכחת פה משהו</FormFeedback>
-        </FormGroup>
+        <Message
+          quote={this.props.quote}
+          sendMessage={this.getMessage}></Message>
         
         {
           this.state.services.map((service, index) => {
@@ -160,7 +160,7 @@ class QuoteForm extends Component {
 
         <Discount
           prevPrice={this.calcTotalPrice()}
-          discount={this.props.discount}
+          discount={this.state.discount}
           onDiscount={this.addDiscount}
           validateDiscount={ this.validateDiscount }>
         </Discount>

@@ -6,8 +6,18 @@ class AddQuote extends Component {
   constructor(props){
     super(props);
     this.state = {
-      quoteName: '',
-      services: [],
+      quote: {
+        name: '',
+        subject: '',
+        address: {
+          city: '',
+          street: '',
+          houseNumber: ''  
+        },
+        services: [],
+        discount: 0,
+        comment: ''
+      },
       isOpen: false
     };
   }
@@ -36,10 +46,8 @@ class AddQuote extends Component {
         toggle={this.toggle}
         isOpen={this.state.isOpen}>
         <QuoteForm
-          quoteName={this.state.quoteName}
+          quote={this.state.quote}
           items={this.props.items}
-          services={this.state.services}
-          discount={0}
           onSubmit={this.submitQuote}>  
         </QuoteForm>
       </SimpleModal>

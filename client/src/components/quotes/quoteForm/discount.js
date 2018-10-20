@@ -19,6 +19,7 @@ import {
   Container
 } from 'reactstrap';
 
+import InputRow from '../../helpers/inputRow'
 
 class Discount extends Component {
   constructor(props){
@@ -52,29 +53,19 @@ class Discount extends Component {
 
   render() {
     return (
-      <Row>
-        <Col>
-          <Label>
-            <small>
-              <b> מחיר סופי</b>
-            </small>
-          </Label>
-          <FormGroup>
-            <InputGroupAddon addonType="prepend" className="fullWidth">
-              <InputGroupText name="finalPrice" className="fullWidth right bold-border">
-                <p className="no-margin">{this.intFormat(this.calcFinalPrice(this.props.prevPrice))}₪</p>
-              </InputGroupText>
-            </InputGroupAddon>
-          </FormGroup>
-        </Col>
-
-        <Col>
-          <Label>
-            <small>
-              אחוז הנחה
-            </small>
-          </Label>
-          <FormGroup>
+      <InputRow
+        labelLeft="מחיר סופי"
+        labelMiddle='אחוז הנחה'
+        labelRight='לפני הנחה'
+        childLeft = {
+          <InputGroupAddon addonType="prepend" className="fullWidth">
+            <InputGroupText name="finalPrice" className="fullWidth right bold-border">
+              <p className="no-margin">{this.intFormat(this.calcFinalPrice(this.props.prevPrice))}₪</p>
+            </InputGroupText>
+          </InputGroupAddon>
+        }
+        childMiddle = {
+          <div>
             <InputGroup>
               <Input
                 type="number"
@@ -92,26 +83,17 @@ class Discount extends Component {
             </InputGroup>
 
             <FormFeedback>אחי...</FormFeedback>
-
-          </FormGroup>
-        </Col>
-
-        <Col>
-          <Label>
-            <small>
-              סכום מקורי
-            </small>
-          </Label>
-          <FormGroup>
+          </div>
+        }
+        childRight = {
           <InputGroupAddon addonType="prepend" className="fullWidth">
-              <InputGroupText name="totalPrice" className="fullWidth right">
-                <p className="no-margin">{this.intFormat(this.props.prevPrice)}₪</p>
-              </InputGroupText>
-            </InputGroupAddon>
-          </FormGroup>
-        </Col>
-
-      </Row>
+            <InputGroupText name="totalPrice" className="fullWidth right">
+              <p className="no-margin">{this.intFormat(this.props.prevPrice)}₪</p>
+            </InputGroupText>
+          </InputGroupAddon>
+        }>
+      
+      </InputRow>
     );
   }
 }

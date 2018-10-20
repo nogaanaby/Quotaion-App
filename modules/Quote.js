@@ -7,6 +7,18 @@ const QuoteSchema = new Schema({
     type: String,
     required: true
   },
+  subject:{
+    type: String,
+    default: ''
+  },
+  address: {
+    type: Object,
+    default: {
+      city: '',
+      street: '',
+      houseNumber: 0
+    }
+  },
   services: {
     type: Array,
     default: []
@@ -18,6 +30,10 @@ const QuoteSchema = new Schema({
   discount: {
     type: Number,
     default: 0
+  },
+  comment: {
+    type: String,
+    default: ''    
   },
   date: {
     type: Date,

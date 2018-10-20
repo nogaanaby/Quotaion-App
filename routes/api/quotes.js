@@ -20,9 +20,16 @@ router.post('/', (req, res) => {
   console.log(req.body)
   const newQuote = new Quote({
     name: req.body.name,
+    subject: req.body.subject,
+    address: {
+      city: req.body.address.city,
+      street: req.body.address.street,
+      houseNumber: req.body.address.houseNumber,
+    },
     services: req.body.services,
     totalPrice: req.body.totalPrice,
-    discount: req.body.discount
+    discount: req.body.discount,
+    comment: req.body.comment
   })
 
   newQuote.save()
